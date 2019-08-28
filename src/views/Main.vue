@@ -177,8 +177,8 @@ export default {
     async fetchData() {
       this.userdata = await FirebaseService.SELECT_UserIdData();
       this.company = await FirebaseService.SELECT_CompanyIdData();
-      console.log(this.userdata,"qwe")
-      console.log(this.company,"asd")
+      // console.log(this.userdata,"qwe")
+      // console.log(this.company,"asd")
       this.leng = this.userdata.length + this.company.length;
       this.$store.commit("changeLevel", this.$session.get("level"));
       // var result = Math.floor(Math.random() * this.userdata.length);
