@@ -26,7 +26,7 @@
 
       <v-flex xs12 sm10 offset-sm1>
         <v-layout style="margin-top:95px; margin-left:20px;">
-          <div>
+          <div v-if="this.$route.params.id==this.$store.getters.getSession">
             <div
               v-if="!company.company_logo || (company.company_logo=='https://i.imgur.com/WmUIKlP.png')"
               class="text-center"
@@ -35,15 +35,20 @@
               @mouseover="showUpImgBtn=true"
               @mouseleave="showUpImgBtn=false"
             >
+            <!-- {{this.$route.params.id}}
+            {{this.$store.getters.getSession}} -->
               <div @click="setFile()" v-show="showUpImgBtn" style="position: absolute; top: 54px; z-index: 2" >
                 <p class="text-center" style="background: #ffffff91;padding: 10px 20px; cursor:pointer;" >
                   <span class="fontDoHyeon ">사진을 등록하세요!</span>
                 </p>
+
               </div>
+
               <v-avatar size="150" class="grey lighten-2" @click="setFile()" style="cursor:pointer;" >
                 <img src="https://i.imgur.com/WmUIKlP.png" />
               </v-avatar>
               <input type="file" name="file" id="file" style="width:100%; display:none" @change="onFileChange" />
+
             </div>
 
             <div v-else style="position:relative;" @mouseover="showRmImgBtn=true" @mouseleave="showRmImgBtn=false" >
@@ -58,6 +63,13 @@
               </v-avatar>
             </div>
           </div>
+          <div v-else>
+            <v-avatar size="150" class="grey lighten-2">
+              <img :src="company.company_logo" />
+            </v-avatar>
+          </div>
+
+
           <div style="margin-left:2vw;">
             <v-layout align-end fill-height class="white--text">
               <div style="background-color:rgba(0, 0, 0, 0.5);">
