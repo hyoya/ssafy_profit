@@ -344,7 +344,7 @@ export default {
         this.projectData = await FirebaseService.SELECT_Project(this.project_id);
         var Json = new Object();
         Json.Comment = listtext + this.comment;
-        Json.User = this.user;
+        Json.User = this.$session.get('session_id');
         Json.like = [];
         Json.unlike = [];
         Json.reportUserList = [];
@@ -364,7 +364,7 @@ export default {
         }
         // 비동기적으로 댓글 추가
         const newcommnet = {
-        User : this.user,
+        User : this.$store.getters.getSession,
         Comment : listtext + this.comment,
         like : [],
         unlike : [],

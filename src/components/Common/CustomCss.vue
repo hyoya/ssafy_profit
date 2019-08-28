@@ -78,8 +78,20 @@
     -webkit-box-orient:vertical;
     -webkit-line-clamp:3;
   }
+  .txtBox1{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    margin-top:0px;
+    max-height:15px;
+    overflow:hidden;
+    vertical-align:top;
+    text-overflow: ellipsis;
+    word-break:break-all;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1;
 
-  .txtBox2{
+  }  .txtBox2{
     display: -webkit-box;
     display: -ms-flexbox;
     display: box;
