@@ -33,7 +33,7 @@
                 placeholder="  user@gmail.com"
                 required
                 v-model="signup_id"
-                :rules="[idRules.required, idRules.emailMatch]"
+
               >
                 <template v-slot:append-outer>
                   <small
@@ -54,7 +54,7 @@
                 label="* 닉네임"
                 required
                 v-model="nickname"
-                :rules="[nicknameRules.required]"
+
               >
                 <template v-slot:append-outer>
                   <small
@@ -82,7 +82,7 @@
                 type="password"
                 required
                 v-model="signup_password"
-                :rules="[pwdRules.required]"
+
               ></v-text-field>
               <v-text-field
                 class="pwfield"
@@ -91,7 +91,7 @@
                 type="password"
                 required
                 v-model="signup_password_check"
-                :rules="[pwdRules.repeat]"
+
               >
                 <template v-slot:append-outer>
                   <small
@@ -115,7 +115,7 @@
                 label="* 핸드폰 번호"
                 required
                 v-model="phonenumber"
-                :rules="[phonenumberRules.required, phonenumberRules.check]"
+
               >
                 <template v-slot:append-outer>
                   <small
@@ -187,27 +187,31 @@ export default {
     nicknameValidation: false,
     nicknameMsg: "",
 
-    idRules: {
-      required: value => !!value || "필수입력입니다",
-      emailMatch: value => {
-        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return pattern.test(value) || "이메일 형식이여야 합니다!";
-      }
-    },
-    nicknameRules: {
-      required: value => !!value || "필수입력입니다"
-    },
-    pwdRules: {
-      required: value => !!value || "필수입력입니다",
-      repeat: value => !!value || "비밀번호를 재입력해주세요!"
-    },
-    phonenumberRules: {
-      required: value => !!value || "필수입력입니다",
-      check: value => {
-        const pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
-        return pattern.test(value) || "폰 번호 형식이여야 합니다!";
-      }
-    }
+    // idRules: {
+      // required: value => !!value || "필수입력입니다",
+      // emailMatch: value => {
+      //   const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      //   return pattern.test(value) || "이메일 형식이여야 합니다!";
+      // }
+    // },
+    // nicknameRules: {
+      // required: value => !!value || "필수입력입니다",
+      // blank: value => {
+      //   var tmp_id = value.replace(/(\s*)/g,"")
+      //   return !!tmp_id || "공백은 안돼요~"
+      // }
+    // },
+    // pwdRules: {
+      // required: value => !!value || "필수입력입니다",
+      // repeat: value => !!value || "비밀번호를 재입력해주세요!"
+    // },
+    // phonenumberRules: {
+      // required: value => !!value || "필수입력입니다",
+      // check: value => {
+      //   const pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/;
+      //   return pattern.test(value) || "폰 번호 형식이여야 합니다!";
+      // }
+    // }
   }),
   mounted() {
     this.fetchData();
@@ -265,6 +269,20 @@ export default {
       }
     },
     nicknameCheck() {
+      if (this.nickname !== this.nickname.replace(/(\s*)/g,"")) {
+        // 닉네임 안에 공백을 쓴 경우
+        this.nicknameValidation = false;
+        this.nicknameMsg = "닉네임 안에 공백이 포함되어 있습니다.";
+        return;
+
+      }
+      if (this.nickname.replace(/(\s*)/g,"")==="") {
+        // 닉네임이 공백들로 이루어진 경우
+        this.nicknameValidation = false;
+        this.nicknameMsg = "닉네임이 공백으로 이루어져 있습니다.";
+        return;
+      }
+
       for (var i in this.userIdData) {
         if (this.userIdData[i].id == this.nickname) {
           this.nicknameValidation = false;
@@ -283,6 +301,7 @@ export default {
       if (pattern_spc.test(this.nickname)) {
         this.nicknameValidation = false;
         this.nicknameMsg = "닉네임에 특수문자는 사용이 불가능합니다.";
+        return;
       } else {
         this.nicknameValidation = true;
         this.nicknameMsg = "사용 가능한 닉네임입니다.";
@@ -297,7 +316,7 @@ export default {
         }
       }
       for (var j in this.companyIdData) {
-        console.log(this.companyIdData[j].data.id);
+        // console.log(this.companyIdData[j].data.id);
         if (this.companyIdData[j].data.id == this.signup_id) {
           this.signup_id_Validation = false;
           this.signup_id_Msg = "이미 존재하는 아이디입니다.";

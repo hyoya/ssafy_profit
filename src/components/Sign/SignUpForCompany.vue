@@ -23,26 +23,34 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12>
-                <v-text-field @blur="idCheck" label="* 아이디 " placeholder="company@gmail.com" required v-model="signup_id" :rules="[idRules.required, idRules.emailMatch]">
+                <v-text-field @blur="idCheck" label="* 아이디 " placeholder="company@gmail.com" required v-model="signup_id" >
                   <template v-slot:append-outer>
-                    <!-- <small style="color:red" v-if="!signup_id_Validation && signup_id_Msg!=='' && signup_id !== ''"> {{signup_id_Msg}} </small> -->
+                    <small style="color:red" v-if="!signup_id_Validation && signup_id_Msg!=='' && signup_id !== ''"> {{signup_id_Msg}} </small>
                     <small style="color:green;white-space: nowrap;" v-if="signup_id_Validation && signup_id_Msg!=='' && signup_id !== ''"> {{signup_id_Msg}} </small>
+
                   </template>
                 </v-text-field>
               </v-flex>
 
               <!-- Company Name -->
               <v-flex xs12>
-                <v-text-field label="* 회사이름" required v-model="company_name"></v-text-field>
+                <v-text-field @blur="company_name_Check" label="* 회사이름"  required v-model="company_name" >
+                  <template v-slot:append-outer>
+                    <small style="color:red; white-space: nowrap;" v-if="!company_name_Validation &&
+                     company_name !== '' && company_name_Msg !== '' "> {{company_name_Msg}} </small>
+                    <small style="color:green; white-space: nowrap;" v-if="company_name_Validation &&
+                     company_name !== '' && company_name_Msg !== '' "> {{company_name_Msg}} </small>
+                  </template>
+                </v-text-field>
               </v-flex>
 
               <!-- Password -->
               <v-flex xs12>
                 <v-text-field class="pwfield" @blur="passwordCheck" label="* 비밀번호" type="password" required v-model="signup_password"
-                :rules="[pwdRules.required]">
+                >
                 </v-text-field>
                 <v-text-field class="pwfield" @blur="passwordCheck" label="* 비밀번호 확인 " type="password" required v-model="signup_password_check"
-                :rules="[pwdRules.repeat]">
+                >
                 <template v-slot:append-outer>
                   <small style="color:red; white-space: nowrap;" v-if="!signup_password_Validation &&
                   signup_password_check !== '' && signup_password !== '' && signup_password_Msg !== '' "> {{signup_password_Msg}} </small>
@@ -63,7 +71,7 @@
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="signupforcompanymodal = false"> 닫기 </v-btn>
           <v-btn color="blue darken-1" text
-          v-if="signup_id_Validation && signup_password_Validation"
+          v-if="signup_id_Validation && signup_password_Validation && company_name_Validation"
           @click="SignupCompany(company_name, signup_id, signup_password)"> 회원가입 </v-btn>
           <v-btn color="blue darken-1" text v-else disabled>회원가입</v-btn>
         </v-card-actions>
@@ -80,7 +88,10 @@ import FirebaseService from "@/services/FirebaseService";
       companyIdData : [],
 
       signupforcompanymodal: false,
+
       company_name : '',
+      company_name_Validation: false,
+      company_name_Msg : "",
 
       signup_id: "",
       signup_id_Validation : false,
@@ -91,17 +102,17 @@ import FirebaseService from "@/services/FirebaseService";
       signup_password_Validation : false,
       signup_password_Msg : "",
 
-      idRules:{
-        required: value => !!value || '필수입력입니다',
-        emailMatch: value => {
-            const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-            return pattern.test(value) || '이메일 형식이여야 합니다!'
-          },
-      },
-      pwdRules:{
-        required: value => !!value || '필수입력입니다',
-        repeat : value => !!value || '비밀번호를 재입력해주세요!',
-      },
+      // idRules:{
+        // required: value => !!value || '필수입력입니다',
+        // emailMatch: value => {
+        //     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        //     return pattern.test(value) || '이메일 형식이여야 합니다!'
+        //   },
+      // },
+      // pwdRules:{
+        // required: value => !!value || '필수입력입니다',
+        // repeat : value => !!value || '비밀번호를 재입력해주세요!',
+      // },
 
     }),
     mounted() {
@@ -113,26 +124,31 @@ import FirebaseService from "@/services/FirebaseService";
           this.signup_id_Msg = "";
         }
       },
+      company_name: function() {
+        if ( this.company_name.length == 0 ) {
+          this.company_name_Msg = "";
+        }
+      },
       signup_password: function() {
         if ( this.signup_password.length == 0 ) {
           this.signup_password_Msg = "";
         }
       },
-      signup_password_check: function() {
-        if ( this.signup_password_check.length == 0 ) {
-          this.signup_password_Msg = "";
-        } else if ( this.signup_password_check.length == this.signup_password.length ) {
-          if ( this.signup_password_check !== '' && this.signup_password  !== '' ) {
-            if ( this.signup_password_check == this.signup_password ) {
-              this.signup_password_Validation = true;
-              this.signup_password_Msg = "비밀번호가 일치합니다.";
-            } else {
-              this.signup_password_Validation = false;
-              this.signup_password_Msg = "비밀번호가 일치하지 않습니다.";
-            }
-          }
-        }
-      },
+      // signup_password_check: function() {
+      //   if ( this.signup_password_check.length == 0 ) {
+      //     this.signup_password_Msg = "";
+      //   } else if ( this.signup_password_check.length == this.signup_password.length ) {
+      //     if ( this.signup_password_check !== '' && this.signup_password  !== '' ) {
+      //       if ( this.signup_password_check == this.signup_password ) {
+      //         this.signup_password_Validation = true;
+      //         this.signup_password_Msg = "비밀번호가 일치합니다.";
+      //       } else {
+      //         this.signup_password_Validation = false;
+      //         this.signup_password_Msg = "비밀번호가 일치하지 않습니다.";
+      //       }
+      //     }
+      //   }
+      // },
     },
     methods : {
       async fetchData() {
@@ -155,6 +171,7 @@ import FirebaseService from "@/services/FirebaseService";
       idCheck() {
         for(var i in this.userIdData) {
           if ( this.userIdData[i].data.email == this.signup_id ) {
+            // console.log('등록된 id입니다.')
             this.signup_id_Validation = false;
             this.signup_id_Msg = "이미 존재하는 아이디입니다.";
             return ;
@@ -162,6 +179,7 @@ import FirebaseService from "@/services/FirebaseService";
         }
         for(var j in this.companyIdData) {
           if ( this.companyIdData[j].data.id == this.signup_id ) {
+            // console.log('등록된 id입니다.')
             this.signup_id_Validation = false;
             this.signup_id_Msg = "이미 존재하는 아이디입니다.";
             return ;
@@ -169,6 +187,7 @@ import FirebaseService from "@/services/FirebaseService";
         }
         var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if(this.signup_id.match(mailformat)) {
+          // console.log('가능한 id입니다.')
           this.signup_id_Validation = true;
           this.signup_id_Msg = "사용 가능한 아이디입니다.";
         } else {
@@ -187,6 +206,39 @@ import FirebaseService from "@/services/FirebaseService";
           }
         }
       },
+      company_name_Check() {
+        if (this.company_name !== this.company_name.replace(/(\s*)/g,"")) {
+          // 닉네임 안에 공백을 쓴 경우
+          this.company_name_Validation = false;
+          this.company_name_Msg = "닉네임 안에 공백이 포함되어 있습니다.";
+          return;
+        }
+        else if (this.company_name.replace(/(\s*)/g,"")==="") {
+          // 닉네임이 공백들로 이루어진 경우
+          this.company_name_Validation = false;
+          this.company_name_Msg = "닉네임이 공백으로 이루어져 있습니다.";
+          return;
+        }
+        else {
+          for (var i in this.userIdData) {
+            if (this.userIdData[i].id == this.company_name) {
+              this.company_name_Validation = false;
+              this.company_name_Msg = "이미 존재하는 닉네임입니다.";
+              return;
+            }
+          }
+          for (var j in this.companyIdData) {
+            if (this.companyIdData[j].id == this.company_name) {
+              this.company_name_Validation = false;
+              this.company_name_Msg = "이미 존재하는 닉네임입니다.";
+              return;
+            }
+          }
+          this.company_name_Validation = true;
+          this.company_name_Msg = "사용 가능한 닉네임입니다.";
+          return;
+        }
+      }
     }
   }
 </script>
