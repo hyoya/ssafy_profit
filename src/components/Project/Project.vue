@@ -34,7 +34,7 @@
       <div>
 
         <!-- 신고하기 -->
-        <template>
+        <template v-if="this.$session.get('level')==2">
           <v-layout justify-center d-inline>
             <v-dialog v-model="sirendialog" max-width="290">
               <template v-slot:activator="{ on }">
@@ -97,7 +97,7 @@
               <!--comment -->
                 <v-flex xs12>
                   <span class="title"  style="margin-right:5px;">{{project.projecttitle}}</span>
-
+                  <br>
                   <v-chip outlined label small color="purple dark" style="margin-right:5px;">
 
                     {{ project.projectterm }}
@@ -106,11 +106,11 @@
                   <v-chip outlined label small color="purple dark" style="margin-right:5px;">
 
                     {{ project.projectrank }}
-
+                    
                   </v-chip>
-                  <div style="padding:5px 0;">
+                  <div style="padding:5px 0;" class="txtBox2" >
                     <v-chip v-for="tech in project.projecttech" outlined small color="grey dark" style="margin-right:5px;">
-                      {{ tech }}
+                      <span >{{ tech.substring(0,15) }}</span>
                     </v-chip>
                   </div>
                   <v-divider/>
