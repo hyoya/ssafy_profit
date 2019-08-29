@@ -246,8 +246,9 @@
                   <v-btn @click="cancel(project_id, comments, index)">취소</v-btn> -->
                   <v-layout>
                     <v-spacer/>
+                    <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br>
                     <v-chip small outlined label @click="change_comment(comments, index, update_commenttext)" style="margin-right:2px;" color="success"> <span class="fontHannaAir">수정</span> </v-chip>
-                    <v-chip small outlined label @click="cancel(project_id, comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
+                    <v-chip small outlined label @click="cancel(comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
                   </v-layout>
                 </div>
                 <!--  -->
@@ -401,8 +402,7 @@ export default {
     async INSERT_Comment(real_taglist, comment){
       if( comment == "" ) {
         this.$swal('실패!','댓글내용을 입력해주세요.','error');
-      }
-      if (this.user) {
+      } else if (this.user) {
         var listtext = ''
         for (var j in real_taglist) {
           listtext += `@${real_taglist[j]} `
@@ -410,7 +410,7 @@ export default {
         this.projectData = await FirebaseService.SELECT_Project(this.project_id);
         var Json = new Object();
         Json.Comment = listtext + this.comment;
-        Json.User = this.this.$session.get('session_id');
+        Json.User = this.$session.get('session_id');
         Json.like = [];
         Json.unlike = [];
         Json.reportUserList = [];
@@ -440,9 +440,6 @@ export default {
           date: (date.getFullYear()-2000) + "." + (date.getMonth()+1) + "."  + date.getDate() + "." + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         };
         this.comments.push(newcommnet)
-      } else {
-        // 로그인 안했으면 안했다고 알려줘야지 헤헤
-        alert('너 로그인안했다. 댓글못쓴다~')
       }
       this.comment = ''
       this.real_taglist = []
@@ -452,8 +449,21 @@ export default {
       this.comments = await FirebaseService.SELECT_Comments(this.project_id)
     },
     DELETE_comment(comments, comment_index) {
-      // console.log(this.project_id)
-      FirebaseService.DELETE_comment(this.project_id, comments, comment_index)
+      this.$swal({
+       title: '정말 삭제하시겠습니까?',
+       text: "삭제된 댓글은 복구가 불가능합니다.",
+       type: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: '삭제',
+       cancelButtonText: '취소',
+      }).then((result) => {
+       if (result.value) {
+         this.$swal('Deleted!','댓글 삭제가 완료되었습니다.','success')
+         FirebaseService.DELETE_comment(this.project_id, comments, comment_index)
+       }
+     })
     },
     UPDATE_comment(comments, index) {
       var before = document.querySelector(`.before_${index}`)
@@ -580,6 +590,10 @@ export default {
         this.real_taglist.push(nickname)
         var index = this.comment.indexOf(nickname)
         var leng = nickname.length
+        this.comment = ''
+        this.tmp_taglist = []
+      } else {
+        this.$swal('태그 오류!','이미 태그되어있는 유저입니다.','error')
         this.comment = ''
         this.tmp_taglist = []
       }
