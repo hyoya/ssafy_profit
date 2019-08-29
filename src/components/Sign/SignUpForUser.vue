@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="signupforusermodal" max-width="600px" xs6>
+  <v-dialog v-model="signupforusermodal" persistent max-width="600px" xs6>
     <template v-slot:activator="{ on }">
       <v-layout
         v-on="on"
@@ -394,6 +394,7 @@ export default {
         this.nickname = "";
         this.signup_id = "";
         this.signup_password = "";
+        this.signup_password_check = "";
         this.phonenumber = "";
         this.$emit("signup");
         this.$swal(
@@ -401,6 +402,7 @@ export default {
           "스토리 페이지에서 정보를 입력해주세요!",
           "success"
         );
+
         // this.showNotification("foo-css","success",`${nickname}님`,`회원가입 완료!`);
       }
     }

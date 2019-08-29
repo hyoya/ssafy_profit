@@ -56,7 +56,7 @@
 
                     <v-flex xs12 sm8>
                       <div class="mainProjectTitle" style="margin-top:50px;">
-                        <h2 style="display:inline">{{hotprojects[i][1].projecttitle}}</h2>
+                        <h2 style="display:inline;" class="txtBox2">{{hotprojects[i][1].projecttitle}}</h2>
                         <p style="margin-top:10px;">{{hotprojects[i][1].session_id}}</p>
                       </div>
                     </v-flex>
@@ -81,11 +81,13 @@
                       <img :src="hotprojects[i][1].projectimage || 'https://i.imgur.com/8tFN1Zj.jpg'" alt="gg" style="width:250px; height:250px;"/>
                   </v-flex>
                   <v-flex xs12 offset-sm1 sm5 style="padding:20px 0;">
-                    <span class="grey--text caption txtBox2">{{hotprojects[i][1].projectdescription}}</span>
+                    <div>
+                      <span class="grey--text caption txtBox2">{{hotprojects[i][1].projectdescription}}</span>
+                    </div>
 
                     <div style="display:inline;" justify-center>
                       <v-chip v-for="item in hotprojects[i][1].projecttech" color="indigo" x-small outlined style="margin:2px; color:black;">
-                        {{item}}
+                        <span class="txtBox1">{{item}}</span>
                       </v-chip>
                       <br/><br/>
                       <!-- <span>상세내용</span><br/> -->

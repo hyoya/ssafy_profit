@@ -1,6 +1,14 @@
 <template>
   <v-container>
     <v-layout row wrap >
+      <div id="likecheck" class="pj_LikeitIcon far" @click="like_project()">
+        <span style="z-index:3; position:absolute; top:40%; left:40%; color:white;">
+          <span class="fontjua ">
+            {{likeit.length}}
+          </span>
+        </span>
+      </div>
+
       <v-toolbar-title class="font-weight-medium" style="padding-left:10px;">
         <div>
           <span class="font-weight-bold">{{project.projecttitle}}</span>
@@ -17,26 +25,27 @@
 
       <v-spacer/>
       <div>
-        <v-badge color="#E74C3C" overlap>
+        <!-- <v-badge color="#E74C3C" overlap>
           <template slot="badge"> {{likeit.length}} </template>
 
           <v-btn text icon color="pink">
-            <!-- 이미 좋아요 눌렀다면 다른 fa 를 보여주는 것도 좋겠다. -->
             <i id="likecheck" class="far fa-heart fa-2x" @click="like_project()"></i>
           </v-btn>
-        </v-badge>
+        </v-badge> -->
 
         <!-- 신고하기 -->
         <template>
           <v-layout justify-center d-inline>
             <v-dialog v-model="sirendialog" max-width="290">
               <template v-slot:activator="{ on }">
-                <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fas fa-bell fa-2x" style="color:orange"></i></v-btn>
+                <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fas fa-bell fa-2x" style="color:orange"></i></v-btn> -->
+                <v-chip small outlined label color="orange" v-on="on"><span class="fontHannaAir">신고</span></v-chip>
+
               </template>
 
               <v-card>
                 <v-card-title class="headline">
-                  <span class="headline">프로젝트 신고하기</span>
+                  <span class="headline">신고하기</span>
                 </v-card-title>
                 <v-card-text>
                   <v-layout wrap>
@@ -45,14 +54,13 @@
                       v-model="reportSelect"
                       :items="reportItems"
                       label="신고 사유를 선택해주세요."
-                      readonly
                       ></v-combobox>
                     </v-flex>
                     <v-flex xs12 v-if="reportSelect=='기타'">
-                      <v-text-field single-line outlined required v-model="reportText" placeholder="신고 사유를 입력해주세요."> </v-text-field>
+                      <input type="text" v-model="reportText"/>
                     </v-flex>
                     <v-flex xs12>
-                      <v-text-field v-model="reportDesc" required placeholder="신고 내용을 입력해주세요." @keyup.enter="sirendialog = false,  submitReport(reportSelect,reportText,reportDesc)"></v-text-field>
+                      <v-text-field v-model="reportDesc" required @keyup.enter="sirendialog = false, submitReport(reportSelect,reportText,reportDesc)"></v-text-field>
                     </v-flex>
                   </v-layout>
                 </v-card-text>
@@ -148,74 +156,100 @@
           <v-layout row wrap justify-center>
             <v-flex xs12 v-for="(com, index) in comments">
               <v-card outlined style="width:100%; padding:10px 25px; margin:2px 0;">
-                <div v-bind:class="[`before_${index}`]">
+                <!-- <div v-bind:class="[`before_${index}`]"> -->
                   <span v-bind:class="[`blinding_${index}`]" v-if="com.state==3" style="color:red;" @click="seecomment(index)">이 댓글은 신고 누적으로 블라인드 처리(클릭으로 보기가능)</span>
                   <span class="overline grey--text"> {{com.User}} </span>
                   <span class="overline grey--text"> | {{com.date}} </span> <br/>
                   <span v-if="com.state < 3" class="subtitle-1"> {{com.Comment}} </span>
-                  <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
+                  <!-- <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span> -->
 
                   <!-- action btn -->
                   <v-layout>
                     <v-spacer/>
-                    <div style="display:inline;" class="caption">
-                      <i v-bind:id="[`commentlike_${index}`]" class="far fa-heart" style="color:red; cursor:pointer;" @click="like_comment(com, index)"/>
-                      <span class="caption">{{com.like.length}}</span>
+                    <div style="display:inline;" class="caption fontYanolja " >
+                      <div style="width:100%;text-align: center;">
 
-                      <i v-bind:id="[`commentunlike_${index}`]" class="far fa-heart" style="cursor:pointer;" @click="unlike_comment(com, index)"/>
-                      <span class="caption">{{com.unlike.length}}</span>
+                        <i v-bind:id="[`commentlike_${index}`]" class="far fa-thumbs-up fa-2x" style="color:red; cursor:pointer;" @click="like_comment(com, index)"/>
+                        <span class="title"><span class="fontjua">{{com.like.length}}</span></span>
 
-                      <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
-                      <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/>
+                        &nbsp;
+                        &nbsp;
 
-                      <template>
-                        <v-layout justify-center d-inline>
-                          <v-dialog v-model="Commentdialog" max-width="290">
-                            <template v-slot:activator="{ on }">
-                              <v-icon small class="fa fa-bell fa-1x" v-on="on" color="#ffa76a"></v-icon>
-                              <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fa fa-bell" style="color:orange"></i></v-btn> -->
-                            </template>
+                        <i v-bind:id="[`commentunlike_${index}`]" class="far fa-thumbs-down fa-2x" style="cursor:pointer;" @click="unlike_comment(com, index)"/>
+                        <span class="title"><span class="fontjua  ">{{com.unlike.length}}</span></span>
+                      </div>
 
-                            <v-card>
-                              <v-card-title class="headline">
-                                <span class="headline">신고하기</span>
-                              </v-card-title>
-                              <v-card-text>
-                                <v-layout wrap>
-                                  <v-flex xs12>
-                                    <v-combobox
-                                    v-model="reportCommentSelect"
-                                    :items="reportCommentItems"
-                                    label="댓글신고 사유를 선택해주세요."
-                                    ></v-combobox>
-                                  </v-flex>
-                                  <v-flex xs12 v-if="reportCommentSelect=='기타'">
-                                    <input type="text" v-model="reportCommentText"/>
-                                  </v-flex>
-                                  <v-flex xs12>
-                                    <v-text-field v-model="reportCommentDesc" required @keyup.enter="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc)"></v-text-field>
-                                  </v-flex>
-                                </v-layout>
-                              </v-card-text>
-                              <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn color="blue darken-1" text @click="Commentdialog = false">취소</v-btn>
-                                <v-btn color="blue darken-1" text @click="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc, comments, index)">신고하기</v-btn>
-                                <br />
-                              </v-card-actions>
-                            </v-card>
+                      <div>
+                        <!-- <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
+                        <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/> -->
+                        <v-chip small outlined label @click="UPDATE_comment(comments, index)" style="margin-right:2px;" color="success"><span class="fontHannaAir">수정</span></v-chip>
+                        <v-chip small outlined label @click="DELETE_comment(comments, index)" style="margin-right:2px;" color="red"><span class="fontHannaAir">삭제</span></v-chip>
 
-                          </v-dialog>
-                        </v-layout>
-                      </template>
+                        <template>
+                          <v-layout justify-center d-inline>
+                            <v-dialog v-model="Commentdialog" max-width="310">
+                              <template v-slot:activator="{ on }">
+                                <v-chip small outlined label style="cursor:pointer" color="orange" v-on="on" >
+                                  <span class="fontHannaAir">신고</span>
+                                </v-chip>
+                                <!-- <v-icon small class="fa fa-bell fa-1x" v-on="on" color="#ffa76a"></v-icon> -->
+                                <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fa fa-bell" style="color:orange"></i></v-btn> -->
+                              </template>
+
+                                <v-card>
+                                  <div style="width:100%; padding:10px 20px;">
+                                  <v-card-title class="headline" style="margin-bottom:10px;">
+                                    <v-spacer/>
+                                    <span class="headline"><span class="fontHannaAir">신고하기</span></span>
+                                    <v-spacer/>
+                                  </v-card-title>
+
+                                  <v-card-text>
+                                    <v-layout wrap>
+                                      <v-flex xs12>
+                                        <v-combobox
+                                        v-model="reportCommentSelect"
+                                        :items="reportCommentItems"
+                                        label="댓글신고 사유를 선택해주세요."
+                                        ></v-combobox>
+                                      </v-flex>
+                                      <v-flex xs12 v-if="reportCommentSelect=='기타'">
+                                        <input type="text" v-model="reportCommentText"/>
+                                      </v-flex>
+                                      <v-flex xs12>
+                                        <v-text-field v-model="reportCommentDesc" required @keyup.enter="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc)"></v-text-field>
+                                      </v-flex>
+                                    </v-layout>
+                                  </v-card-text>
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="blue darken-1" text @click="Commentdialog = false">취소</v-btn>
+                                    <v-btn color="blue darken-1" text @click="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc, comments, index)">신고하기</v-btn>
+                                    <br />
+                                  </v-card-actions>
+                                </div>
+                                </v-card>
+
+                            </v-dialog>
+                          </v-layout>
+                        </template>
+                      </div>
                     </div>
                   </v-layout>
-                </div>
+                <!-- </div> -->
+
                 <!-- 수정 그림을 누르면 보여주는 구역 , 바로 비동기적으로 구현됨.-->
                 <div v-bind:class="[`after_${index}`]" style="display:none; width:100%; margin:10px; padding:10px; ">
-                  <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br>
-                  <v-btn @click="change_comment(comments, index, update_commenttext)">수정</v-btn>
-                  <v-btn @click="cancel(project_id, comments, index)">취소</v-btn>
+                  <!-- <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br> -->
+                  <v-text-field outlined v-bind:class="[`aftertext_${index}`]" v-model="update_commenttext" />
+                  <!-- <v-btn @click="change_comment(comments, index, update_commenttext)">수정</v-btn>
+                  <v-btn @click="cancel(project_id, comments, index)">취소</v-btn> -->
+                  <v-layout>
+                    <v-spacer/>
+                    <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br>
+                    <v-chip small outlined label @click="change_comment(comments, index, update_commenttext)" style="margin-right:2px;" color="success"> <span class="fontHannaAir">수정</span> </v-chip>
+                    <v-chip small outlined label @click="cancel(comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
+                  </v-layout>
                 </div>
                 <!--  -->
               </v-card>
@@ -368,8 +402,7 @@ export default {
     async INSERT_Comment(real_taglist, comment){
       if( comment == "" ) {
         this.$swal('실패!','댓글내용을 입력해주세요.','error');
-      }
-      if (this.user) {
+      } else if (this.user) {
         var listtext = ''
         for (var j in real_taglist) {
           listtext += `@${real_taglist[j]} `
@@ -377,7 +410,7 @@ export default {
         this.projectData = await FirebaseService.SELECT_Project(this.project_id);
         var Json = new Object();
         Json.Comment = listtext + this.comment;
-        Json.User = this.user;
+        Json.User = this.$session.get('session_id');
         Json.like = [];
         Json.unlike = [];
         Json.reportUserList = [];
@@ -398,7 +431,7 @@ export default {
         // 비동기적으로 댓글 추가
         // console.log(listtext + this.comment)
         const newcommnet = {
-          User : this.user,
+          User : this.$store.getters.getSession,
           Comment : listtext + this.comment,
           like : [],
           unlike : [],
@@ -407,9 +440,6 @@ export default {
           date: (date.getFullYear()-2000) + "." + (date.getMonth()+1) + "."  + date.getDate() + "." + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         };
         this.comments.push(newcommnet)
-      } else {
-        // 로그인 안했으면 안했다고 알려줘야지 헤헤
-        alert('너 로그인안했다. 댓글못쓴다~')
       }
       this.comment = ''
       this.real_taglist = []
@@ -419,8 +449,21 @@ export default {
       this.comments = await FirebaseService.SELECT_Comments(this.project_id)
     },
     DELETE_comment(comments, comment_index) {
-      // console.log(this.project_id)
-      FirebaseService.DELETE_comment(this.project_id, comments, comment_index)
+      this.$swal({
+       title: '정말 삭제하시겠습니까?',
+       text: "삭제된 댓글은 복구가 불가능합니다.",
+       type: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: '삭제',
+       cancelButtonText: '취소',
+      }).then((result) => {
+       if (result.value) {
+         this.$swal('Deleted!','댓글 삭제가 완료되었습니다.','success')
+         FirebaseService.DELETE_comment(this.project_id, comments, comment_index)
+       }
+     })
     },
     UPDATE_comment(comments, index) {
       var before = document.querySelector(`.before_${index}`)
@@ -505,9 +548,9 @@ export default {
         if (result[index].like.includes(this.user)) {
           // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
           heart2.classList.remove('far')
-          heart2.classList.add('fa')
+          heart2.classList.add('fas')
         } else {
-          heart2.classList.remove('fa')
+          heart2.classList.remove('fas')
           heart2.classList.add('far')
         }
       }
@@ -521,9 +564,9 @@ export default {
         if (result[index].unlike.includes(this.user)) {
           // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
           heart3.classList.remove('far')
-          heart3.classList.add('fa')
+          heart3.classList.add('fas')
         } else {
-          heart3.classList.remove('fa')
+          heart3.classList.remove('fas')
           heart3.classList.add('far')
         }
       }
@@ -547,6 +590,10 @@ export default {
         this.real_taglist.push(nickname)
         var index = this.comment.indexOf(nickname)
         var leng = nickname.length
+        this.comment = ''
+        this.tmp_taglist = []
+      } else {
+        this.$swal('태그 오류!','이미 태그되어있는 유저입니다.','error')
         this.comment = ''
         this.tmp_taglist = []
       }

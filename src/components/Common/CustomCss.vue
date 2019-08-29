@@ -78,8 +78,20 @@
     -webkit-box-orient:vertical;
     -webkit-line-clamp:3;
   }
+  .txtBox1{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: box;
+    margin-top:0px;
+    max-height:15px;
+    overflow:hidden;
+    vertical-align:top;
+    text-overflow: ellipsis;
+    word-break:break-all;
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1;
 
-  .txtBox2{
+  }  .txtBox2{
     display: -webkit-box;
     display: -ms-flexbox;
     display: box;
@@ -105,6 +117,23 @@
     word-break:break-all;
     -webkit-box-orient:vertical;
     -webkit-line-clamp:8;
+  }
+  .pj_LikeitIcon::before {
+    color:#ea2568;
+    content:"\f004";
+    font-family: FontAwesome;
+    font-size: 2em;
+    z-index: 0;
+    position: absolute;
+    top: 50%; left: 50%;
+    margin: -.28em -.42em;
+  }
+  .pj_LikeitIcon{
+    width:20px;
+    height: 20px;
+    position: relative;
+    margin:2px 18px;
+    cursor:pointer;
   }
 
 fieldset  .v-slide-group__content{
