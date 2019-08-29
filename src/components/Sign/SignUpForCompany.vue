@@ -1,6 +1,6 @@
 <template>
 
-    <v-dialog v-model="signupforcompanymodal" max-width="600px" xs6>
+    <v-dialog v-model="signupforcompanymodal" persistent max-width="600px" xs6>
 
       <template v-slot:activator="{ on }" >
         <v-layout v-on="on" justify-center style=" cursor:pointer; background:#ECF0F199; margin:0 10px; height:200px; color:#2980B9">

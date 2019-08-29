@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="signupforusermodal" max-width="600px" xs6>
+  <v-dialog v-model="signupforusermodal" persistent max-width="600px" xs6>
     <template v-slot:activator="{ on }">
       <v-layout
         v-on="on"
