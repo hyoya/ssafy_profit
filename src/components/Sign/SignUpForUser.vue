@@ -284,14 +284,14 @@ export default {
       }
 
       for (var i in this.userIdData) {
-        if (this.userIdData[i].id == this.nickname) {
+        if (this.userIdData[i].id.toUpperCase() == this.nickname.toUpperCase()) {
           this.nicknameValidation = false;
           this.nicknameMsg = "이미 존재하는 닉네임입니다.";
           return;
         }
       }
       for (var j in this.companyIdData) {
-        if (this.companyIdData[j].id == this.nickname) {
+        if (this.companyIdData[j].id.toUpperCase() == this.nickname.toUpperCase()) {
           this.nicknameValidation = false;
           this.nicknameMsg = "이미 존재하는 닉네임입니다.";
           return;

@@ -221,14 +221,14 @@ import FirebaseService from "@/services/FirebaseService";
         }
         else {
           for (var i in this.userIdData) {
-            if (this.userIdData[i].id == this.company_name) {
+            if (this.userIdData[i].id.toUpperCase() == this.company_name.toUpperCase()) {
               this.company_name_Validation = false;
               this.company_name_Msg = "이미 존재하는 닉네임입니다.";
               return;
             }
           }
           for (var j in this.companyIdData) {
-            if (this.companyIdData[j].id == this.company_name) {
+            if (this.companyIdData[j].id.toUpperCase() == this.company_name.toUpperCase()) {
               this.company_name_Validation = false;
               this.company_name_Msg = "이미 존재하는 닉네임입니다.";
               return;
