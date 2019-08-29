@@ -4,6 +4,20 @@
     <v-divider/>
 
     <v-layout row wrap>
+      <!-- <v-badge color="#E74C3C" overlap>
+        <template slot="badge"> {{likeit.length}} </template>
+        <v-btn text icon color="pink">
+          <i id="likecheck" class="far fa-heart fa-2x" @click="like_project()"></i>
+        </v-btn>
+      </v-badge> -->
+      <div id="likecheck" class="pj_LikeitIcon far" @click="like_project()">
+        <span style="z-index:3; position:absolute; top:40%; left:40%; color:white;">
+          <span class="fontjua ">
+            {{likeit.length}}
+          </span>
+        </span>
+      </div>
+
       <v-toolbar-title class="font-weight-medium" style="padding-left:10px;">
          <span class="font-weight-bold title">{{project.projecttitle}} </span>
          <span class="font-weight-thin font-italic subheading">{{project.session_id}}</span>
@@ -18,20 +32,16 @@
 
       <v-spacer/>
       <div>
-        <v-badge color="#E74C3C" overlap>
-          <template slot="badge"> {{likeit.length}} </template>
-          <v-btn text icon color="pink">
-            <!-- 이미 좋아요 눌렀다면 다른 fa 를 보여주는 것도 좋겠다. -->
-            <i id="likecheck" class="far fa-heart fa-2x" @click="like_project()"></i>
-          </v-btn>
-        </v-badge>
 
         <!-- 신고하기 -->
         <template>
           <v-layout justify-center d-inline>
             <v-dialog v-model="sirendialog" max-width="290">
               <template v-slot:activator="{ on }">
-                <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fa fa-bell fa-2x" style="color:orange"></i></v-btn>
+                <v-chip small outlined label color="orange" v-on="on"><span class="fontHannaAir">신고</span></v-chip>
+                <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on">
+                  <i class="fa fa-bell fa-2x" style="color:orange"></i>
+                </v-btn> -->
               </template>
 
               <v-card>
@@ -152,41 +162,101 @@
                 <v-layout row wrap justify-center>
                   <v-flex xs12 v-for="(com, index) in comments">
                     <v-card outlined style="width:100%; padding:10px 25px; margin:2px 0;">
-                      <div v-bind:class="[`before_${index}`]">
+                      <!-- <div v-bind:class="[`before_${index}`]"> -->
                         <span v-bind:class="[`blinding_${index}`]" v-if="com.state==3" style="color:red;" @click="seecomment(index)">이 댓글은 신고 누적으로 블라인드 처리(클릭으로 보기가능)</span>
                         <span class="overline grey--text"> {{com.User}} </span>
                         <span class="overline grey--text"> | {{com.date}} </span> <br/>
                         <span v-if="com.state < 3" class="subtitle-1"> {{com.Comment}} </span>
-                        <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
+                        <!-- <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span> -->
 
                         <!-- action btn -->
                         <v-layout>
                           <v-spacer/>
-                          <div style="display:inline;" class="caption">
-                              <i v-bind:id="[`commentlike_${index}`]" class="far fa-heart" style="color:red; cursor:pointer;" @click="like_comment(com, index)"/>
-                              <span class="caption">{{com.like.length}}</span>
+                          <div style="display:inline;" class="caption fontYanolja " >
+                            <div style="width:100%;text-align: center;">
 
-                              <i v-bind:id="[`commentunlike_${index}`]" class="far fa-heart" style="cursor:pointer;" @click="unlike_comment(com, index)"/>
-                              <span class="caption">{{com.unlike.length}}</span>
+                              <i v-bind:id="[`commentlike_${index}`]" class="far fa-thumbs-up fa-2x" style="color:#ea2568; cursor:pointer;" @click="like_comment(com, index)"/>
+                              <span class="font-weight-thin"><span class="fontjua" style="color:#ea2568">{{com.like.length}}</span></span>
 
-                              <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
-                              <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/>
-                              <Comments
-                                :com="com"
-                                :project_id="project_id"
-                                :project="project"
-                                :index="index"
-                                :comments="comments"
-                              />
+                              &nbsp;
+                              &nbsp;
+
+                              <i v-bind:id="[`commentunlike_${index}`]" class="far fa-thumbs-down fa-2x" style="cursor:pointer;" @click="unlike_comment(com, index)"/>
+                              <span class="font-weight-thin"><span class="fontjua  ">{{com.unlike.length}}</span></span>
+                            </div>
+
+                            <div>
+                              <!-- <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
+                              <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/> -->
+                              <v-chip small outlined label @click="UPDATE_comment(comments, index)" style="margin-right:2px;" color="success"><span class="fontHannaAir">수정</span></v-chip>
+                              <v-chip small outlined label @click="DELETE_comment(comments, index)" style="margin-right:2px;" color="red"><span class="fontHannaAir">삭제</span></v-chip>
+
+                              <template>
+                                <v-layout justify-center d-inline>
+                                  <v-dialog v-model="Commentdialog" max-width="310">
+                                    <template v-slot:activator="{ on }">
+                                      <v-chip small outlined label style="cursor:pointer" color="orange" v-on="on" >
+                                        <span class="fontHannaAir">신고</span>
+                                      </v-chip>
+                                      <!-- <v-icon small class="fa fa-bell fa-1x" v-on="on" color="#ffa76a"></v-icon> -->
+                                      <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fa fa-bell" style="color:orange"></i></v-btn> -->
+                                    </template>
+
+                                      <v-card>
+                                        <div style="width:100%; padding:10px 20px;">
+                                        <v-card-title class="headline" style="margin-bottom:10px;">
+                                          <v-spacer/>
+                                          <span class="headline"><span class="fontHannaAir">신고하기</span></span>
+                                          <v-spacer/>
+                                        </v-card-title>
+
+                                        <v-card-text>
+                                          <v-layout wrap>
+                                            <v-flex xs12>
+                                              <v-combobox
+                                              v-model="reportCommentSelect"
+                                              :items="reportCommentItems"
+                                              label="댓글신고 사유를 선택해주세요."
+                                              ></v-combobox>
+                                            </v-flex>
+                                            <v-flex xs12 v-if="reportCommentSelect=='기타'">
+                                              <input type="text" v-model="reportCommentText"/>
+                                            </v-flex>
+                                            <v-flex xs12>
+                                              <v-text-field v-model="reportCommentDesc" required @keyup.enter="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc)"></v-text-field>
+                                            </v-flex>
+                                          </v-layout>
+                                        </v-card-text>
+                                        <v-card-actions>
+                                          <v-spacer></v-spacer>
+                                          <v-btn color="blue darken-1" text @click="Commentdialog = false">취소</v-btn>
+                                          <v-btn color="blue darken-1" text @click="Commentdialog = false, submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc, comments, index)">신고하기</v-btn>
+                                          <br />
+                                        </v-card-actions>
+                                      </div>
+                                      </v-card>
+
+                                  </v-dialog>
+                                </v-layout>
+                              </template>
+                            </div>
                           </div>
                         </v-layout>
-                      </div>
+                      <!-- </div> -->
 
+                      <!-- 수정 그림을 누르면 보여주는 구역 , 바로 비동기적으로 구현됨.-->
                       <div v-bind:class="[`after_${index}`]" style="display:none; width:100%; margin:10px; padding:10px; ">
-                        <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br>
-                        <v-btn @click="change_comment(comments, index, update_commenttext)">수정</v-btn>
-                        <v-btn @click="cancel(comments, index)">취소</v-btn>
+                        <!-- <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br> -->
+                        <v-text-field outlined v-bind:class="[`aftertext_${index}`]" v-model="update_commenttext" />
+                        <!-- <v-btn @click="change_comment(comments, index, update_commenttext)">수정</v-btn>
+                        <v-btn @click="cancel(project_id, comments, index)">취소</v-btn> -->
+                        <v-layout>
+                          <v-spacer/>
+                          <v-chip small outlined label @click="change_comment(comments, index, update_commenttext)" style="margin-right:2px;" color="success"> <span class="fontHannaAir">수정</span> </v-chip>
+                          <v-chip small outlined label @click="cancel(project_id, comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
+                        </v-layout>
                       </div>
+                      <!--  -->
                     </v-card>
                   </v-flex>
                 </v-layout>
@@ -423,11 +493,11 @@ export default {
 
         if (userdata.length!=0) {
           if (userdata[0].likeitProject.includes(this.project_id)) {
-            heart.classList.remove('fa')
+            heart.classList.remove('fas')
             heart.classList.add('far')
           } else {
             heart.classList.remove('far')
-            heart.classList.add('fa')
+            heart.classList.add('fas')
           }
         }
       }

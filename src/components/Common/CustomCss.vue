@@ -118,6 +118,23 @@
     -webkit-box-orient:vertical;
     -webkit-line-clamp:8;
   }
+  .pj_LikeitIcon::before {
+    color:#ea2568;
+    content:"\f004";
+    font-family: FontAwesome;
+    font-size: 2em;
+    z-index: 0;
+    position: absolute;
+    top: 50%; left: 50%;
+    margin: -.28em -.42em;
+  }
+  .pj_LikeitIcon{
+    width:20px;
+    height: 20px;
+    position: relative;
+    margin:2px 18px;
+    cursor:pointer;
+  }
 
 fieldset  .v-slide-group__content{
   justify-content: center;
