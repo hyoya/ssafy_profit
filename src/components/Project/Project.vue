@@ -162,12 +162,12 @@
                 <v-layout row wrap justify-center>
                   <v-flex xs12 v-for="(com, index) in comments">
                     <v-card outlined style="width:100%; padding:10px 25px; margin:2px 0;">
-                      <!-- <div v-bind:class="[`before_${index}`]"> -->
+                      <div v-bind:class="[`before_${index}`]">
                         <span v-bind:class="[`blinding_${index}`]" v-if="com.state==3" style="color:red;" @click="seecomment(index)">이 댓글은 신고 누적으로 블라인드 처리(클릭으로 보기가능)</span>
                         <span class="overline grey--text"> {{com.User}} </span>
                         <span class="overline grey--text"> | {{com.date}} </span> <br/>
                         <span v-if="com.state < 3" class="subtitle-1"> {{com.Comment}} </span>
-                        <!-- <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span> -->
+                        <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
 
                         <!-- action btn -->
                         <v-layout>
@@ -188,15 +188,15 @@
                             <div>
                               <!-- <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
                               <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/> -->
-                              <v-chip small outlined label @click="UPDATE_comment(comments, index)" style="margin-right:2px;" color="success"><span class="fontHannaAir">수정</span></v-chip>
-                              <v-chip small outlined label @click="DELETE_comment(comments, index)" style="margin-right:2px;" color="red"><span class="fontHannaAir">삭제</span></v-chip>
+                              <v-chip v-if="com.User==$store.getters.getSession" small outlined label @click="UPDATE_comment(comments, index)" style="margin-right:2px;" color="success"><span class="fontHannaAir">수정</span></v-chip>
+                              <v-chip v-if="com.User==$store.getters.getSession" small outlined label @click="DELETE_comment(comments, index)" style="margin-right:2px;" color="red"><span class="fontHannaAir">삭제</span></v-chip>
 
-                              <template>
+                              <template v-if="$store.getters.getSession">
                                 <v-layout justify-center d-inline>
                                   <v-dialog v-model="Commentdialog" max-width="310">
                                     <template v-slot:activator="{ on }">
                                       <v-chip small outlined label style="cursor:pointer" color="orange" v-on="on" >
-                                        <span class="fontHannaAir">신고</span>
+                                        <span  class="fontHannaAir">신고</span>
                                       </v-chip>
                                       <!-- <v-icon small class="fa fa-bell fa-1x" v-on="on" color="#ffa76a"></v-icon> -->
                                       <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fa fa-bell" style="color:orange"></i></v-btn> -->
@@ -242,12 +242,9 @@
                             </div>
                           </div>
                         </v-layout>
-<<<<<<< HEAD
+
 
                       </div>
-=======
-                      <!-- </div> -->
->>>>>>> ba6d776d061c0ee82c35062e62506e61d00ee7ae
 
                       <!-- 수정 그림을 누르면 보여주는 구역 , 바로 비동기적으로 구현됨.-->
                       <div v-bind:class="[`after_${index}`]" style="display:none; width:100%; margin:10px; padding:10px; ">
@@ -258,7 +255,7 @@
                         <v-layout>
                           <v-spacer/>
                           <v-chip small outlined label @click="change_comment(comments, index, update_commenttext)" style="margin-right:2px;" color="success"> <span class="fontHannaAir">수정</span> </v-chip>
-                          <v-chip small outlined label @click="cancel(project_id, comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
+                          <v-chip small outlined label @click="cancel(comments, index)" style="margin-right:2px;" color="red"> <span class="fontHannaAir">취소</span> </v-chip>
                         </v-layout>
                       </div>
                       <!--  -->
@@ -523,71 +520,79 @@ export default {
     },
     async like_check() {
       // 프로젝트 자체를 내가 좋아요 눌렀는지 체크
-      if (this.user) {
-        var userdata = await FirebaseService.SELECT_Userdata(this.user)
-        var heart = document.querySelector('#likecheck')
+      if (this.$session.get('level')==2) {
+        if (this.user) {
+          var userdata = await FirebaseService.SELECT_Userdata(this.user)
+          var heart = document.querySelector('#likecheck')
 
-        if (userdata[0].likeitProject.includes(this.project_id)) {
-          heart.classList.remove('far')
-          heart.classList.add('fa')
-        } else {
-          heart.classList.remove('fa')
-          heart.classList.add('far')
-        }
-
-        // 각 댓글들을 내가 좋아요 눌렀는지 체크
-        for (var comment in this.comments) {
-          if (this.comments[comment].like.includes(this.user)) {
-            var heart2 = document.querySelector(`#commentlike_${comment}`)
-            heart2.classList.remove('far')
-            heart2.classList.add('fa')
+          if (userdata[0].likeitProject.includes(this.project_id)) {
+            heart.classList.remove('far')
+            heart.classList.add('fa')
           } else {
-            var heart2 = document.querySelector(`#commentlike_${comment}`)
-            heart2.classList.remove('fa')
-            heart2.classList.add('far')
+            heart.classList.remove('fa')
+            heart.classList.add('far')
           }
-        }
-        for (var comment in this.comments) {
-          if (this.comments[comment].unlike.includes(this.user)) {
-            var heart3 = document.querySelector(`#commentunlike_${comment}`)
-            heart3.classList.remove('far')
-            heart3.classList.add('fa')
-          } else {
-            var heart3 = document.querySelector(`#commentunlike_${comment}`)
-            heart3.classList.remove('fa')
-            heart3.classList.add('far')
+
+          // 각 댓글들을 내가 좋아요 눌렀는지 체크
+
+          for (var comment in this.comments) {
+            if (this.comments[comment].like.includes(this.user)) {
+              var heart2 = document.querySelector(`#commentlike_${comment}`)
+              heart2.classList.remove('far')
+              heart2.classList.add('fa')
+            } else {
+              var heart2 = document.querySelector(`#commentlike_${comment}`)
+              heart2.classList.remove('fa')
+              heart2.classList.add('far')
+            }
+          }
+          for (var comment in this.comments) {
+            if (this.comments[comment].unlike.includes(this.user)) {
+              var heart3 = document.querySelector(`#commentunlike_${comment}`)
+              heart3.classList.remove('far')
+              heart3.classList.add('fa')
+            } else {
+              var heart3 = document.querySelector(`#commentunlike_${comment}`)
+              heart3.classList.remove('fa')
+              heart3.classList.add('far')
+            }
           }
         }
       }
 
     },
     async like_comment(com, index) {
-      if (this.user) {
-        // com 은 내용 , index 는 순서
-        var result = await FirebaseService.like_comment(this.user, this.pcode, this.comments, com.like, index)
-        var heart2 = document.querySelector(`#commentlike_${index}`)
-        if (result[index].like.includes(this.user)) {
-          // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
-          heart2.classList.remove('far')
-          heart2.classList.add('fa')
-        } else {
-          heart2.classList.remove('fa')
-          heart2.classList.add('far')
+      if (this.$session.get('level')==2) {
+        if (this.user) {
+          // com 은 내용 , index 는 순서
+          var result = await FirebaseService.like_comment(this.user, this.pcode, this.comments, com.like, index)
+          var heart2 = document.querySelector(`#commentlike_${index}`)
+          if (result[index].like.includes(this.user)) {
+            // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
+            heart2.classList.remove('far')
+            heart2.classList.add('fa')
+          } else {
+            heart2.classList.remove('fa')
+            heart2.classList.add('far')
+          }
         }
       }
+
     },
     async unlike_comment(com, index) {
-      if (this.user) {
-        // com 은 내용 , index 는 순서
-        var result = await FirebaseService.unlike_comment(this.user, this.pcode, this.comments, com.like, index)
-        var heart3 = document.querySelector(`#commentunlike_${index}`)
-        if (result[index].unlike.includes(this.user)) {
-          // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
-          heart3.classList.remove('far')
-          heart3.classList.add('fa')
-        } else {
-          heart3.classList.remove('fa')
-          heart3.classList.add('far')
+      if (this.$session.get('level')==2) {
+        if (this.user) {
+          // com 은 내용 , index 는 순서
+          var result = await FirebaseService.unlike_comment(this.user, this.pcode, this.comments, com.like, index)
+          var heart3 = document.querySelector(`#commentunlike_${index}`)
+          if (result[index].unlike.includes(this.user)) {
+            // 댓글 남긴 사람들 중에서 내가 있다는 뜻.
+            heart3.classList.remove('far')
+            heart3.classList.add('fa')
+          } else {
+            heart3.classList.remove('fa')
+            heart3.classList.add('far')
+          }
         }
       }
     },
