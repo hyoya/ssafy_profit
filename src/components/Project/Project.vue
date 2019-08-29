@@ -157,8 +157,9 @@
                         <span class="overline grey--text"> {{com.User}} </span>
                         <span class="overline grey--text"> | {{com.date}} </span> <br/>
                         <span v-if="com.state < 3" class="subtitle-1"> {{com.Comment}} </span>
-                        <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
-
+                        <div class="txtBox">
+                          <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
+                        </div>
                         <!-- action btn -->
                         <v-layout>
                           <v-spacer/>
@@ -180,6 +181,7 @@
                               />
                           </div>
                         </v-layout>
+
                       </div>
 
                       <div v-bind:class="[`after_${index}`]" style="display:none; width:100%; margin:10px; padding:10px; ">
