@@ -68,14 +68,69 @@ export default {
   }),
   methods: {
     sendCar(carcompany, carposition, carstartday, carendday, cardescription) {
-      // console.log(this.carendday, 123123)
+      var today = new Date();
+      var dd = today.getDate(); // 29
+      var mm = today.getMonth()+1; // 8
+      var yyyy = today.getFullYear(); // 2019
+      // 29 8 2019
+      // console.log(carstartday, '있냐없냐')
+      if (!carstartday) {
+        this.$swal({
+          title: "시작날짜 지정해주세요.",
+          type: "warning",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33"
+        })
+        return;
+      }
+
+      var endday = carendday.split('-')
+      var filter_carendday = ""
+      // 더 큰 년도를 쓴 경우
+      if (endday[0]>yyyy) {
+        // console.log('무조건 미래다')
+      }
+      else {
+        // 올해를 쓴 경우
+        if (endday[0]==yyyy) {
+          // 달이 미래인 경우
+          if (endday[1]>mm) {
+            // console.log('무조건 미래다')
+          }
+          else {
+            // 달이 이번달인 경우
+            if (endday[1]==mm) {
+              // 일이 미래인 경우
+              if (endday[2]>dd) {
+                // console.log('무조건 미래다')
+              }
+              else {
+                // console.log('오늘 또는 과거이다.')
+                filter_carendday = carendday
+              }
+            }
+            // 달이 더 작은 경우
+            else {
+              // console.log('무조건 과거다')
+              filter_carendday = carendday
+            }
+          }
+        }
+
+        // 더 작은 년도를 쓴 경우
+        else {
+          // console.log('무조건 과거다')
+          filter_carendday = carendday
+        }
+      }
+
 
       if (!this.carendday) {
         var Json = new Object();
         Json.Company = carcompany;
         Json.Position = carposition;
         Json.Startday = carstartday;
-        Json.Endday = carendday;
+        Json.Endday = filter_carendday;
         Json.Description = cardescription;
         this.$emit("sendCar", Json);
 
@@ -98,7 +153,7 @@ export default {
           Json.Company = carcompany;
           Json.Position = carposition;
           Json.Startday = carstartday;
-          Json.Endday = carendday;
+          Json.Endday = filter_carendday;
           Json.Description = cardescription;
           this.$emit("sendCar", Json);
 
@@ -110,9 +165,6 @@ export default {
           this.careermodal = false;
         }
       }
-
-
-
     },
     clearCar() {
       this.carcompany = "";
