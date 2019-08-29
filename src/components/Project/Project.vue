@@ -389,7 +389,21 @@ export default {
       this.$emit('goBackpage');
     },
     DELETE_comment(comments, comment_index) {
-      FirebaseService.DELETE_comment(this.pcode, comments, comment_index)
+        this.$swal({
+       title: '정말 삭제하시겠습니까?',
+       text: "삭제된 댓글은 복구가 불가능합니다.",
+       type: 'warning',
+       showCancelButton: true,
+       confirmButtonColor: '#3085d6',
+       cancelButtonColor: '#d33',
+       confirmButtonText: '삭제',
+       cancelButtonText: '취소',
+      }).then((result) => {
+       if (result.value) {
+         this.$swal('Deleted!','댓글 삭제가 완료되었습니다.','success')
+         FirebaseService.DELETE_comment(this.pcode, comments, comment_index)
+       }
+     })
     },
     UPDATE_comment(comments, index) {
       var before = document.querySelector(`.before_${index}`)
