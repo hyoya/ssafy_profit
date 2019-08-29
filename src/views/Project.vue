@@ -215,7 +215,7 @@
                 <div v-bind:class="[`after_${index}`]" style="display:none; width:100%; margin:10px; padding:10px; ">
                   <input v-bind:class="[`aftertext_${index}`]" style="display:inline-block; width:100%; border: 1px solid #ff0000;" v-model="update_commenttext"><br>
                   <v-btn @click="change_comment(comments, index, update_commenttext)">수정</v-btn>
-                  <v-btn @click="cancel(project_id, comments, index)">취소</v-btn>
+                  <v-btn @click="cancel(comments, index)">취소</v-btn>
                 </div>
                 <!--  -->
               </v-card>
@@ -368,8 +368,7 @@ export default {
     async INSERT_Comment(real_taglist, comment){
       if( comment == "" ) {
         this.$swal('실패!','댓글내용을 입력해주세요.','error');
-      }
-      if (this.user) {
+      } else if (this.user) {
         var listtext = ''
         for (var j in real_taglist) {
           listtext += `@${real_taglist[j]} `
@@ -377,7 +376,7 @@ export default {
         this.projectData = await FirebaseService.SELECT_Project(this.project_id);
         var Json = new Object();
         Json.Comment = listtext + this.comment;
-        Json.User = this.this.$session.get('session_id');
+        Json.User = this.$session.get('session_id');
         Json.like = [];
         Json.unlike = [];
         Json.reportUserList = [];
@@ -407,9 +406,6 @@ export default {
           date: (date.getFullYear()-2000) + "." + (date.getMonth()+1) + "."  + date.getDate() + "." + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
         };
         this.comments.push(newcommnet)
-      } else {
-        // 로그인 안했으면 안했다고 알려줘야지 헤헤
-        alert('너 로그인안했다. 댓글못쓴다~')
       }
       this.comment = ''
       this.real_taglist = []
@@ -560,6 +556,10 @@ export default {
         this.real_taglist.push(nickname)
         var index = this.comment.indexOf(nickname)
         var leng = nickname.length
+        this.comment = ''
+        this.tmp_taglist = []
+      } else {
+        this.$swal('태그 오류!','이미 태그되어있는 유저입니다.','error')
         this.comment = ''
         this.tmp_taglist = []
       }

@@ -537,6 +537,10 @@ export default {
       var leng = nickname.length
       this.comment = ''
       this.tmp_taglist = []
+      } else {
+        this.$swal('태그 오류!','이미 태그되어있는 유저입니다.','error')
+        this.comment = ''
+        this.tmp_taglist = []
       }
     },
     delete_taglist(nickname) {
