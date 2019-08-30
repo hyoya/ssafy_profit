@@ -181,7 +181,7 @@
                         <span class="title"><span class="fontjua  ">{{com.unlike.length}}</span></span>
                       </div>
 
-                      <div>
+                      <div style="text-align: right;">
                         <!-- <v-icon class="fa fa-wrench" color="#8390b4" style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="UPDATE_comment(comments, index)"/>
                         <v-icon class="fa fa-trash" color="#777688"  style="margin-right:2px;" v-if="com.User==$store.getters.getSession" @click="DELETE_comment(comments, index)"/> -->
                         <v-chip v-if="com.User==$store.getters.getSession" small outlined label @click="UPDATE_comment(comments, index)" style="margin-right:2px;" color="success"><span class="fontHannaAir">수정</span></v-chip>
