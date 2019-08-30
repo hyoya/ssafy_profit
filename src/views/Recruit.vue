@@ -3,11 +3,7 @@
     <!-- 개발자라면 아래 레이아웃 출력 -->
     <!-- 모집중공고 리스트 -->
     <div style="margin-top:56px">
-      <div
-        style="padding:3% 5%; border:2px solid grey; border-radius:15px; width:100%;"
-        v-if="this.$store.getters.getLevel == 2"
-      >
-
+      <div style="padding:3% 5%; border:2px solid grey; border-radius:15px; width:100%;" v-if="this.$store.getters.getLevel == 2">
         <v-layout wrap row justify-center style="margin-bottom:20px;">
           <v-flex xs12>
             <h1 class="text-center">

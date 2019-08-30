@@ -105,7 +105,7 @@
       <v-menu offset-y v-if="nowLevel == '2' && user !=='' && user !== undefined ">
         <template v-slot:activator="scope">
           <v-btn icon v-on="scope.on">
-            <v-badge color="red" overlap v-if= " $store.getters.getalertList.unread.length > 0">
+            <v-badge color="red" overlap v-if= "$store.getters.getalertList.unread.length > 0">
               <template slot="badge"> {{$store.getters.getalertList.unread.length}} </template>
               <v-icon color="black" style="text-shadow: -1px 0 #fff, 0 1px #fff, 1px 0 #fff, 0 -1px #fff;"> notifications </v-icon>
             </v-badge>
