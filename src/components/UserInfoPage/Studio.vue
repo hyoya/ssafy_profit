@@ -373,7 +373,17 @@ export default {
         '해당 공고가 찜목록에서 삭제되었습니다.',
         'success'
       )
+      var link = (recruit_id+this.$session.get('session_id'));
+      console.log(link,"링크!!!!!!!!!!!!!");
+      var dataRef = firebase.database().ref('/chat/'+link);
+      dataRef.remove();
+
       this.Dibs.splice(index,1);
+
+
+
+
+
     },
 
 

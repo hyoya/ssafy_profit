@@ -484,9 +484,9 @@
                                       </router-link>
                                       <v-badge color="red" overlap v-if="user.length !== 0" >
                                         <template slot="badge"> {{user.length}} </template>
-                                        <v-btn text outlined @click="openChat(user.chat)">채팅방</v-btn>
+                                        <v-btn text outlined @click="openChat(user.chat,user)">채팅방</v-btn>
                                       </v-badge>
-                                      <v-btn text outlined @click="openChat(user.chat)" v-if="user.length == 0" style="margin-left:1px">채팅방</v-btn>
+                                      <v-btn text outlined @click="openChat(user.chat,user)" v-if="user.length == 0" style="margin-left:1px">채팅방</v-btn>
                                     </td>
                                     </v-flex>
                                     </v-layout>
@@ -664,6 +664,7 @@ export default {
            dataRef.update({
              CompanyComplete : 2,
            });
+           recruitData.CompanyComplete = 2;
          }
        })
     },
@@ -685,6 +686,7 @@ export default {
            dataRef.update({
              CompanyComplete : 1,
            });
+           recruitData.CompanyComplete = 1;
          }
        })
     },
@@ -802,9 +804,10 @@ export default {
         type
       });
     },
-    openChat(user) {
+    openChat(userchat,user) {
+      user.length = 0
       window.open(
-        "../" + user.link,
+        "../" + userchat.link,
         user.link,
         "titlebar=no,status=no,toolbar=no,resizable=yes,top=20,left=500,width=972,height=633"
       );

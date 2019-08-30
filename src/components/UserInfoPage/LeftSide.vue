@@ -6,7 +6,7 @@
     <v-layout wrap>
 
       <v-flex xs12 class="text-center title">
-        Skills
+        기술스택
         <SkillEditor
         v-on:sendSkill="receiveSkill"
         v-if="this.$route.params.id==this.$store.getters.getSession"
@@ -40,7 +40,7 @@
     <!--USER Careers-->
     <v-layout wrap style="margin-top:3vw;">
       <v-flex xs12 class="text-center title">
-        Career
+        경력
         <CareerEditor v-on:sendCar="receiveCar" v-if="this.$route.params.id==this.$store.getters.getSession"/>
       </v-flex>
       <v-flex xs12>
@@ -93,7 +93,7 @@
 
     <!--USER Education-->
     <v-layout wrap style="margin-top:4vw;">
-      <v-flex xs12 class="text-center title"> Education <EducationEditor v-on:sendEdu="receiveEdu" v-if="this.$route.params.id==this.$store.getters.getSession"/></v-flex>
+      <v-flex xs12 class="text-center title"> 교육 <EducationEditor v-on:sendEdu="receiveEdu" v-if="this.$route.params.id==this.$store.getters.getSession"/></v-flex>
       <v-flex xs12>
         <!-- v-for Education -->
         <div v-if="educationToggle" class="caption">

@@ -176,10 +176,7 @@
         <div class="userPhoneNumber">
           <i class="fas fa-mobile-alt">
             &nbsp;
-            <span
-              v-if="toggleViewPhoneNumber"
-              class="subheading grey--text text-center"
-            >{{this.phoneNumber}}</span>
+            <span v-if="toggleViewPhoneNumber" class="subheading grey--text text-center">{{this.phoneNumber}}</span>
             <span v-else class="subheading grey--text text-center">비공개</span>
           </i>
         </div >&nbsp;&nbsp;&nbsp;
@@ -403,9 +400,7 @@ export default {
         if (this.$session.get("session_id") !== "") {
           this.toggleView = await FirebaseService.SELECT_userAddon(this.$session.get("session_id"));
         }
-        if (this.$session.get("session_id") !== "") {
-          this.toggleViewPhoneNumber = await FirebaseService.SELECT_userAddon2(this.$session.get("session_id"));
-        }
+        this.toggleViewPhoneNumber = await FirebaseService.SELECT_userAddon2(this.$route.params.id);
         this.user = result[0];
         this.image = result[0].userImage;
         this.storyBanner = result[0].storyBanner;
