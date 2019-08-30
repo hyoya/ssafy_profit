@@ -4,8 +4,12 @@
       <v-img :src="projectimage" height="20vw"></v-img>
       <div>
         <div class="black--text text-center txtline title">
-          <span v-if="projectstate==3" style="color:red;">블라인드 처리됨&nbsp;</span>
           <span class="fontDoHyeon ">{{projecttitle}}</span>
+          <v-chip label small color="red" class="white--text" v-if="projectstate==3" style="margin:0 3px;">
+            <span class="fontJua">
+              블라인드
+            </span>
+          </v-chip>
         </div>
         <div class="grey--text text-center txtline ">
           <span class="fontDoHyeon " style="font-weight:lighter">{{projectdescription}}</span>

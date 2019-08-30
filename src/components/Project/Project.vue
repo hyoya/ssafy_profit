@@ -20,25 +20,29 @@
 
       <v-toolbar-title class="font-weight-medium" style="padding-left:10px;">
          <span class="font-weight-bold title">{{project.projecttitle}} </span>
-         <span class="font-weight-thin font-italic subheading">{{project.session_id}}</span>
+         <span class="font-weight-thin font-italic caption">{{project.session_id}}</span>
          <v-flex class="caption">
            {{ project.projectdescription }}
          </v-flex>
        </v-toolbar-title>
 
-       <v-btn text color="yellow" @click="submitObjection()" v-if="this.$route.params.id==this.$store.getters.getSession && project.state > 0">
-         이의제기
-       </v-btn>
+       <v-spacer/>
+       <v-chip color="orange" @click="submitObjection()"
+       style="margin:2px 10px 0 0;"
+        v-if="this.$route.params.id==this.$store.getters.getSession && project.state > 0">
+         <span class="fontjua">이의제기</span>
+       </v-chip>
 
-      <v-spacer/>
       <div>
 
         <!-- 신고하기 -->
-        <template v-if="this.$session.get('level')==2">
+        <template v-if="this.$session.get('level')==2 && this.$session.get('session_id') != project.session_id">
           <v-layout justify-center d-inline>
             <v-dialog v-model="sirendialog" max-width="290">
               <template v-slot:activator="{ on }">
-                <v-chip small outlined label color="orange" v-on="on"><span class="fontHannaAir">신고</span></v-chip>
+                <v-chip  color="orange" style="margin:2px 10px 0 0 " v-on="on">
+                  <span class="fontjua">신고</span>
+                </v-chip>
                 <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on">
                   <i class="fa fa-bell fa-2x" style="color:orange"></i>
                 </v-btn> -->
