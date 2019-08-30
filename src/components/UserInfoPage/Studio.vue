@@ -4,140 +4,128 @@
     <div style="position:relative">
       <div style="position:absolute; top:-73px; right:-65px; z-index:3;">
         <!-- <img src="https://i.imgur.com/dSQEMtT.png" alt="g"/> -->
-        <img src="https://i.imgur.com/gTQZzck.png" alt="gg" style="width:140px; -ms-transform: rotateY(180deg);-webkit-transform: rotateY(180deg); transform: rotateY(180deg);"/>
+        <!-- <img src="https://i.imgur.com/gTQZzck.png" alt="gg" style="width:140px; -ms-transform: rotateY(180deg);-webkit-transform: rotateY(180deg); transform: rotateY(180deg);"/> -->
       </div>
     </div>
+
+
+    <!--작업실 타이틀 -->
+    <div style="position:relative; margin-bottom:80px;">
+      <div style="position:absolute; top:-6px; right:34%; z-index:3;">
+        <span class="display-2 white--text"><span class="fontYanolja">작 업 실 </span></span>
+        <img src="https://i.imgur.com/5RTt9xP.png" alt="gg" style="width:40px;"/>
+      </div>
+    </div>
+
+    <!-- 아무것도 없을때 -->
+    <div v-if="proceedList.length==0 && completeList.length==0 && delList.length==0">
+      <div>
+        <p style="width:100%; text-align: center; padding: 20% 0; border-radius: 20px; background: white;" class="title  grey--text">
+          <span class="fontDoHyeon ">
+            현재 지원한 공고가 없습니다.<br/>
+            <br/>
+            외주 공고페이지 <v-chip color="primary" small><span class="fontJua">바로가기</span></v-chip> 에서<br/>
+            외주공고를 찜하면 작업실에 등록됩니다.
+          </span>
+        </p>
+      </div>
+    </div>
+
 
     <!-- 작업중인 리스트 -->
-    <div style="width:100%" v-if="proceedList.length>0">
-      <div>
-        <p style="width:100%; text-align: center;" class="display-1 font-weight-bold">진행중인 프로젝트</p>
-      </div>
-      <v-layout row wrap style="margin:20px 0;" v-for="recruit in proceedList">
-        <v-card outlined style="width:100%; padding:12px;">
-          <div class="subtitle-1" v-if="!((recruit.UserComplete == 2 && recruit.CompanyComplete == 0)|| (recruit.UserComplete == 0 && recruit.CompanyComplete == 2) || (recruit.UserComplete == 1 || recruit.CompanyComplete == 1))">
-            <span class="headline font-weight-bold">{{recruit.projectTitle}}</span>
-            <span class="caption grey--text">&nbsp;{{recruit.companyId}}</span>
-            <br/>
-            <div style="display:block;">
-              <p style="width:100%;" class="text-center display-1 purple--text">
-                D-{{recruit.projectTerm}}
-              </p>
+    <div style="width:100%; margin-bottom:40px;" v-if="proceedList.length>0">
+
+      <fieldset style="padding:20px; border:2px solid white; border-radius:10px; " justify-center >
+        <legend align="center" class="white--text display-1">
+          <span class="fontYanolja">&nbsp;진행중인 프로젝트&nbsp;</span>
+        </legend>
+
+        <v-layout row wrap style="margin:20px 0;" v-for="recruit in proceedList">
+          <v-card outlined style="width:100%; padding:12px;">
+            <div class="subtitle-1" v-if="!((recruit.UserComplete == 2 && recruit.CompanyComplete == 0)|| (recruit.UserComplete == 0 && recruit.CompanyComplete == 2) || (recruit.UserComplete == 1 || recruit.CompanyComplete == 1))">
+              <span class="headline font-weight-bold">{{recruit.projectTitle}}</span>
+              <span class="caption grey--text">&nbsp;{{recruit.companyId}}</span>
+              <br/>
+              <div style="display:block;">
+                <p style="width:100%;" class="text-center display-1 purple--text">
+                  D-{{recruit.projectTerm}}
+                </p>
+                <p style="width:100%;" class="text-center headline">
+                  {{recruit.pay }}원
+                </p>
+              </div>
+            </div>
+
+            <div v-else>
+              <span class="headline font-weight-bold">{{recruit.projectTitle}}</span>
+              <span class="caption grey--text">&nbsp;{{recruit.companyId}}</span>
+              <br/>
+              <div style="display:block;">
+                <p style="width:100%;" class="text-center title grey--text">
+                  D-{{recruit.projectTerm}}3<br/>
+                  {{recruit.pay}}
+                </p>
+              </div>
+            </div>
+
+            <div>
               <p style="width:100%;" class="text-center headline">
-                {{recruit.pay }}원
+                <span  v-if="recruit.UserComplete == 2 && recruit.CompanyComplete == 0">
+                  완료 처리되었습니다.<br/> 상대방의 처리를 기다리는중입니다.
+                </span>
+                <span v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 2">
+                  상대방이 완료를 누른 상태입니다. 계약이 정상적으로 종료되었다면 완료를 눌러주세요.
+                </span>
+                <div v-if="recruit.UserComplete == 1">
+                  <p> 유저 측의 사유로 파기된 계약입니다. </p>
+                </div>
+                <div v-if="recruit.CompanyComplete == 1">
+                  <p> 기업 측의 사유로 파기된 계약입니다. </p>
+                </div>
               </p>
             </div>
-          </div>
 
-          <div v-else>
-            <span class="headline font-weight-bold">{{recruit.projectTitle}}</span>
-            <span class="caption grey--text">&nbsp;{{recruit.companyId}}</span>
-            <br/>
-            <div style="display:block;">
-              <p style="width:100%;" class="text-center title grey--text">
-                D-{{recruit.projectTerm}}3<br/>
-                {{recruit.pay}}
-              </p>
-            </div>
-          </div>
+            <v-container>
+              <v-layout row wrap>
+                <v-spacer/>
+                <div v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 0">
+                  <v-btn @click="complete(recruit,recruit.CompanyComplete)" style="margin-right:3px;" outlined color="blue">완료</v-btn>
+                  <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
+                  <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
+                  <v-btn @click="cancel(recruit)" style="margin-right:3px;" outlined color="red">계약파기</v-btn>
+                </div>
+                <div v-if="recruit.UserComplete == 2 && recruit.CompanyComplete == 0">
+                  <!-- <p> 완료 처리됨 : 상대방의 처리를 기다리는중</p> -->
+                  <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
+                  <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
+                </div>
+                <div v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 2">
+                  <!-- <p> 상대방이 완료를 누른 상태입니다. 계약이 정상적으로 종료되었다면 완료를 눌러주세요.</p> -->
+                  <v-btn @click="complete(recruit,recruit.CompanyComplete)" style="margin-right:3px;" outlined color="blue">완료</v-btn>
+                  <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
+                  <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
+                </div>
+                <div v-if="recruit.UserComplete == 1">
+                  <p> 기업측의 사유로 파기된 계약입니다. </p>
+                </div>
+                <div v-if="recruit.CompanyComplete == 1">
+                  <p> 기업측의 사유로 파기된 계약입니다. </p>
+                </div>
+              </v-layout>
+            </v-container>
 
-          <div>
-            <p style="width:100%;" class="text-center headline">
-              <span  v-if="recruit.UserComplete == 2 && recruit.CompanyComplete == 0">
-                완료 처리되었습니다.<br/> 상대방의 처리를 기다리는중입니다.
-              </span>
-              <span v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 2">
-                상대방이 완료를 누른 상태입니다. 계약이 정상적으로 종료되었다면 완료를 눌러주세요.
-              </span>
-              <div v-if="recruit.UserComplete == 1">
-                <p> 유저 측의 사유로 파기된 계약입니다. </p>
-              </div>
-              <div v-if="recruit.CompanyComplete == 1">
-                <p> 기업 측의 사유로 파기된 계약입니다. </p>
-              </div>
-            </p>
-          </div>
+          </v-card>
+        </v-layout>
+      </fieldset>
 
-          <v-container>
-            <v-layout row wrap>
-              <v-spacer/>
-              <div v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 0">
-                <v-btn @click="complete(recruit,recruit.CompanyComplete)" style="margin-right:3px;" outlined color="blue">완료</v-btn>
-                <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
-                <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
-                <v-btn @click="cancel(recruit)" style="margin-right:3px;" outlined color="red">계약파기</v-btn>
-              </div>
-              <div v-if="recruit.UserComplete == 2 && recruit.CompanyComplete == 0">
-                <!-- <p> 완료 처리됨 : 상대방의 처리를 기다리는중</p> -->
-                <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
-                <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
-              </div>
-              <div v-if="recruit.UserComplete == 0 && recruit.CompanyComplete == 2">
-                <!-- <p> 상대방이 완료를 누른 상태입니다. 계약이 정상적으로 종료되었다면 완료를 눌러주세요.</p> -->
-                <v-btn @click="complete(recruit,recruit.CompanyComplete)" style="margin-right:3px;" outlined color="blue">완료</v-btn>
-                <v-btn @click="popContract(recruit)" style="margin-right:3px;" outlined color="orange">계약서</v-btn>
-                <v-btn @click="popChat(recruit)" style="margin-right:3px;" outlined color="orange">채팅창</v-btn>
-              </div>
-              <div v-if="recruit.UserComplete == 1">
-                <p> 기업측의 사유로 파기된 계약입니다. </p>
-              </div>
-              <div v-if="recruit.CompanyComplete == 1">
-                <p> 기업측의 사유로 파기된 계약입니다. </p>
-              </div>
-            </v-layout>
-          </v-container>
-
-        </v-card>
-      </v-layout>
     </div>
 
-    <!-- 두 리스트 사이 여백 -->
-    <v-layout row style="margin:20px"  v-if="proceedList.length>0"/>
-
-      <!-- 찜 리스트 -->
-      <div style="width:100%"  v-if="Dibs.length>0">
-        <div>
-          <p class="text-center display-1 font-weight-bold">찜리스트</p>
-        </div>
-        <v-layout row wrap v-for="(recruit,index) in Dibs" style="margin:20px 0;">
-            <v-card outlined style="width:100%; padding:12px;">
-              <div class="subtitle-1">
-                <span class="headline font-weight-bold">{{recruit.data.projectTitle}}</span>
-                <span class="caption grey--text">&nbsp;{{recruit.data.companyId}}</span>
-                <!-- <h2>{{recruit.data.projectTitle}} </h2>
-                {{recruit.data.companyId}} -->
-                <div>
-                  <v-chip v-for="skill in recruit.data.requiredSkills" small outlined style="margin:auto;">
-                    {{skill}}
-                  </v-chip>
-                </div>
-                <div>
-                  <p style="width:100%;" class="text-center headline">
-                    <span> {{recruit.data.budget}}원 </span><br/>
-                    <span class="overline grey--text">{{recruit.data.endDay}}</span>
-                    <br/>
-                    <span class="caption grey--text">{{recruit.data.projectSummary}}</span>
-                  </p>
-                </div>
-              </div>
-              <v-container>
-                <v-layout row wrap>
-                  <v-spacer/>
-                  <v-btn  @click="dib(recruit.id,index)" outlined color="red"> 찜 취소 </v-btn>
-                  <v-btn style="margin-right:3px;" @click="popDibChat(recruit)" outlined color="orange">채팅방</v-btn>
-                </v-layout>
-              </v-container>
-            </v-card>
-        </v-layout>
-      </div>
-    </v-layout>
-
-
-      <!-- 완료 리스트 -->
-      <div style="width:100%" v-if="completeList.length>0">
-        <div>
-          <p style="width:100%; text-align: center;" class="display-1 font-weight-bold">완수한 프로젝트</p>
-        </div>
+    <!-- 완료 리스트 -->
+    <div style="width:100%; margin-bottom:40px;" v-if="completeList.length>0">
+      <fieldset style="padding:20px; border:2px solid white; border-radius:10px; " justify-center >
+        <legend align="center" class="white--text display-1">
+          <span class="fontYanolja">&nbsp;완료&nbsp;</span>
+        </legend>
         <v-layout row wrap style="margin:20px 0;" v-for="recruit in completeList">
           <v-card outlined style="width:100%; padding:12px;">
             <div class="subtitle-1" v-if="!((recruit.UserComplete == 2 && recruit.CompanyComplete == 0)|| (recruit.UserComplete == 0 && recruit.CompanyComplete == 2) || (recruit.UserComplete == 1 || recruit.CompanyComplete == 1))">
@@ -168,13 +156,15 @@
 
           </v-card>
         </v-layout>
-      </div>
+      </fieldset>
+    </div>
 
-      <!-- 파기 리스트 -->
-      <div style="width:100%" v-if="delList.length>0">
-        <div>
-          <p style="width:100%; text-align: center;" class="display-1 font-weight-bold">파기된 공고</p>
-        </div>
+    <!-- 파기 리스트 -->
+    <div style="width:100%" v-if="delList.length>0">
+      <fieldset style="padding:20px; border:2px solid white; border-radius:10px; " justify-center >
+        <legend align="center" class="white--text display-1">
+          <span class="fontYanolja">&nbsp;파기&nbsp;</span>
+        </legend>
         <v-layout row wrap style="margin:20px 0;" v-for="recruit in delList">
           <v-card outlined style="width:100%; padding:12px;">
             <div class="subtitle-1" v-if="!((recruit.UserComplete == 2 && recruit.CompanyComplete == 0)|| (recruit.UserComplete == 0 && recruit.CompanyComplete == 2) || (recruit.UserComplete == 1 || recruit.CompanyComplete == 1))">
@@ -205,7 +195,8 @@
 
           </v-card>
         </v-layout>
-      </div>
+      </fieldset>
+    </div>
 
   </div>
 </template>

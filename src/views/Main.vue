@@ -133,6 +133,7 @@
 
 
       <Section2/>
+      <Section4/>
       <Section3/>
       <!-- <Section4/> -->
     </full-page>
@@ -163,7 +164,7 @@ export default {
     return {
       options:{
         licenseKey: 'YOUR_KEY_HERE',
-        sectionsColor: ['#D0D9F2','#91A9D9','#99B1BF','#F2F2F2',],
+        sectionsColor: ['#D0D9F2','#91A9D9','rgb(97, 125, 181)','#99B1BF',],
       },
       wallpaper:"https://i.imgur.com/8tFN1Zj.jpg",
       leng : "",
