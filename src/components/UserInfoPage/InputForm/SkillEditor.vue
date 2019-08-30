@@ -17,7 +17,7 @@
         <!-- container -->
         <v-card-text>
           <v-layout justify-center row wrap>
-            <div v-if="this.unselectList.length !== 0">
+            <div v-if="this.unselectList.length !== 0 || this.selectList !==0 ">
             <v-flex xs12>
               <fieldset style="padding:10px; border:2px solid lightgrey; border-radius:15px; " justify-center>
                 <legend align="center" class="font-weight-bold">
@@ -81,7 +81,7 @@
         </v-card-text>
 
         <!-- action -->
-        <v-layout row wrap justify-center v-if="this.unselectList.length !== 0">
+        <v-layout row wrap justify-center v-if="this.unselectList.length !== 0 || this.selectList !==0">
           <v-btn v-on:click="sendSkill(selectList,unselectList)" text outlined> 등록 </v-btn>
         </v-layout>
 
