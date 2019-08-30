@@ -36,16 +36,18 @@
         <!-- 신고하기 -->
         <template>
           <v-layout justify-center d-inline>
-            <v-dialog v-model="sirendialog" max-width="290">
+            <v-dialog v-model="sirendialog" max-width="310">
               <template v-slot:activator="{ on }">
                 <!-- <v-btn v-if="$store.getters.getSession" text color="primary" dark v-on="on"><i class="fas fa-bell fa-2x" style="color:orange"></i></v-btn> -->
                 <v-chip small outlined label color="orange" v-on="on"><span class="fontHannaAir">신고</span></v-chip>
 
               </template>
 
-              <v-card>
-                <v-card-title class="headline">
-                  <span class="headline">신고하기</span>
+              <v-card style="padding:20px;">
+                <v-card-title class="headline text-center">
+                  <span class="headline" stlye="width:100%; text-align:center;">
+                    <span class="fontHannaAir">신고하기</span>
+                  </span>
                 </v-card-title>
                 <v-card-text>
                   <v-layout wrap>
@@ -160,9 +162,10 @@
                   <span v-bind:class="[`blinding_${index}`]" v-if="com.state==3" style="color:red;" @click="seecomment(index)">이 댓글은 신고 누적으로 블라인드 처리(클릭으로 보기가능)</span>
                   <span class="overline grey--text"> {{com.User}} </span>
                   <span class="overline grey--text"> | {{com.date}} </span> <br/>
-                  <span v-if="com.state < 3" class="subtitle-1"> {{com.Comment}} </span>
-                  <!-- <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span> -->
-
+                  <div v-if="com.state < 3" style="font-size:2em;">
+                    <span class="fontYanolja "> {{com.Comment}} </span>
+                    <!-- <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span> -->
+                  </div>
                   <!-- action btn -->
                   <v-layout>
                     <v-spacer/>

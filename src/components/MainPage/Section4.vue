@@ -1,28 +1,63 @@
 <template>
   <div class="section">
-    <v-container>
-      <v-layout row wrap justify-center>
-        <v-flex xs12 text-center class="display-2">  <span class="fontjua"> CONTACT US </span> </v-flex>
-        <v-flex xs6 text-center class="title" ma-9>
-          <div class="members fontjua" v-for="member in members">
-            <v-avatar size="90" class="grey lighten-2 avatarStyle">
-              <img :src="member.img" />
-            </v-avatar>
-            &nbsp;&nbsp;&nbsp;
-            {{member.userName}}
-            &nbsp;&nbsp;
-            {{member.email}}
-          </div>
-          <i class="fas fa-map-marker-alt" style="color:grey"></i>&nbsp;
-          <span
-            class="fontjua"
-            style="font-size:13px; color:grey"
-          >대전광역시 유성구 동서대로 98-39 SSAFY 대전1반 9조</span>
+    <v-layout row wrap justify-center style="height:60%; padding:0% 20%">
+      <v-flex xs6 v-show="!showUpRecruit">
+        <v-flex xs12 text-center v-show="!showUpRecruit">
+          <span class="sm-link sm-link_padding-bottom sm-link3" style="height:7%" @mouseover="showUpCompanyList=true" @mouseleave="showUpCompanyList=false">
+            <span class="sm-link__label">  <span class="display-1"> <span class="fontjua"> 개발자들 </span> </span> </span>
+          </span>
         </v-flex>
-      </v-layout>
-    </v-container>
+        <v-flex xs12 text-center v-show="!showUpRecruit">
+          <router-link :to="{ name: 'users' }" class="bannerBtn">
+            <div class="bannerBtn sm-link sm-link_padding-all sm-link1">
+              <div class="sm-link__label" @mouseover="showUpCompanyList=true" @mouseleave="showUpCompanyList=false">
+                <i class="fas fa-users fa-9x"></i><br/>
+                <span class="content"> <span class="fontjua">사용자 둘러보기</span></span>
+              </div>
+            </div>
+          </router-link>
+        </v-flex>
+      </v-flex>
+      <v-flex xs6 v-show="showUpRecruit" style="margin-top:10%">
+        <v-flex xs12 text-center text-white>
+          <span class="headline"> <span class="fontjua" style="color:white;">
+            여러 개발자들을 소개합니다.<br/>
+            다양한 사람들과 관계를 맺고 정보를 얻어보세요.
+          </span> </span>
+        </v-flex>
+      </v-flex>
+      <v-flex v-show="!showUpCompanyList">
+        <v-flex xs12 text-center v-show="!showUpCompanyList">
+          <span class="sm-link sm-link_padding-bottom sm-link3" style="height:7%" @mouseover="showUpRecruit=true" @mouseleave="showUpRecruit=false">
+            <span class="sm-link__label"><span class="display-1"> <span class="fontjua"> 프로젝트들 </span></span> </span>
+          </span>
+        </v-flex>
+        <v-flex xs12 text-center v-show="!showUpCompanyList">
+          <router-link :to="{ name: 'projectlist' }" class="bannerBtn">
+            <div class="bannerBtn sm-link sm-link_padding-all sm-link1" @mouseover="showUpRecruit=true" @mouseleave="showUpRecruit=false">
+              <div class="sm-link__label">
+                <i class="far fa-handshake fa-9x"/><br/>
+                <span class="content"> <span class="fontjua">프로젝트 둘러보기</span></span>
+              </div>
+            </div>
+          </router-link>
+        </v-flex>
+      </v-flex>
+      <v-flex xs6 v-show="showUpCompanyList" style="margin-top:10%">
+        <v-flex xs12 text-center>
+          <span class="headline"> <span class="fontjua" style="color:white;">
+            개발자들이 올린 프로젝트리스트입니다. <br/>
+            여러 프로젝트를 확인하고 댓글을 남겨보세요.
+          </span></span>
+        </v-flex>
+      </v-flex>
+    </v-layout>
+    <v-layout row justify-center>
+      <img src="../../assets/companyListImg.png" style="position:absolute;bottom:0%"/>
+    </v-layout>
   </div>
 </template>
+
 
 
 <script>
@@ -30,47 +65,16 @@ import FirebaseService from "@/services/FirebaseService";
 import Vue from "vue";
 
 export default {
-  name: "section4",
-  components: {},
+  name: "section2",
+  components: {
+  },
   data() {
     return {
-      members: [
-        {
-          img: "https://i.imgur.com/nb90qCB.jpg",
-          userName: "김슬기",
-          email: "rlatmf2147@naver.com"
-        },
-        {
-          img: "https://i.imgur.com/ztAPhm2.png",
-          userName: "서효정",
-          email: "hyoyas@naver.com"
-        },
-        {
-          img: "https://i.imgur.com/4xdolZc.jpg",
-          userName: "박상호",
-          email: "sxngho@naver.com"
-        },
-        {
-          img: "https://i.imgur.com/0fHlyBN.jpg",
-          userName: "김형래",
-          email: "hrb0120@gmail.com"
-        }
-      ]
-    };
+      showUpCompanyList:false,
+      showUpRecruit:false,
+    }
   },
-  created() {
-    console.log(this.members);
-  },
+  created() {},
   methods: {}
 };
 </script>
-<style scoped>
-.members {
-  display: flex;
-  align-items: center;
-  padding-left: 70px;
-  margin-bottom: 20px;
-  color: grey;
-  font-size: 25px;
-}
-</style>

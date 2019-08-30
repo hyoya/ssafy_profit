@@ -135,6 +135,18 @@
     margin:2px 18px;
     cursor:pointer;
   }
+  .showLikeitCnt{
+    width:20px;
+    height: 20px;
+    position: relative;
+    margin:2px 8px;
+  }
+  .showLikeitCnt::before{
+    color:#ea2568;
+    content:"\f004";
+    font-family: FontAwesome;
+    font-size: 24px;
+  }
 
 fieldset  .v-slide-group__content{
   justify-content: center;

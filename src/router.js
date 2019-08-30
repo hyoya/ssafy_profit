@@ -19,6 +19,8 @@ import RecruitEditorPage from "./views/RecruitEditorPage.vue";
 import CompanyListPage from "./views/CompanyListPage.vue";
 import Company from "./views/Company.vue";
 import ErrorPage from "./views/ErrorPage.vue";
+import Users from "./views/Users.vue";
+import ProjectList from "./views/ProjectList.vue";
 
 Vue.use(Vuex);
 Vue.use(store);
@@ -95,6 +97,16 @@ export default new Router({
       path: "/error",
       name: "errorPage",
       component: ErrorPage,
+    },
+    {
+      path:"/users",
+      name:"users",
+      component:Users,
+    },
+    {
+      path:"/projectlist",
+      name:"projectlist",
+      component:ProjectList,
     }
   ]
 });

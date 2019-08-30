@@ -42,6 +42,29 @@ export default {
   // ---------------------------------------------------------------------------------------------------------------------------------
   // PROJECT--------------------------------------------------------------------
 
+  async SELECT_ALLProjectsForList(){
+    return firestore
+      .collection("projects")
+      .orderBy("date")
+      .get()
+      .then(docSnapshots => {
+        return docSnapshots.docs.map(doc => {
+          let data = doc.data();
+          return {
+            pid: doc.id,
+            data: data,
+            tech: data.projecttech,
+            title : data.projecttitle,
+            image : data.projectimage,
+            lcnt : data.likeitcount,
+            rank : data.projectrank,
+            term : data.projectterm,
+            desc : data.projectdescription,
+          };
+        });
+      });
+  },
+
   // Function :: 모든 프로젝트를 가져옵니다.
   async SELECT_ALLProjects() {
     return firestore

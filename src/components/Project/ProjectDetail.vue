@@ -14,7 +14,7 @@
     </div>
 
     <div style="float:right; margin-right:1vw;">
-      <v-flex
+      <!-- <v-flex
         v-if="this.$store.getters.getSession==this.$route.params.id"
         @click="UPDATE_Project(project_id)"
         class="d-inline"
@@ -27,7 +27,24 @@
         class="d-inline"
         style="margin-right:1vw;">
         <img src="../../assets/icon_set/delete.png" alt="Smiley" style="cursor: pointer; height:30px;"/>
-      </v-flex>
+      </v-flex> -->
+      <v-btn
+        v-if="this.$store.getters.getSession==this.$route.params.id"
+        @click="UPDATE_Project(project_id)"
+        class="d-inline"
+        style="margin-top:5px"
+        text color="success">
+        <span class="fontJua ">수정</span>
+      </v-btn>
+
+      <v-btn
+        v-if="this.$store.getters.getSession==this.$route.params.id"
+        @click="DELETE_Project(project_id, index)"
+        class="d-inline"
+        style=""
+        text color="red">
+        <span class="fontJua ">삭제</span>
+      </v-btn>
     </div>
   </v-flex>
 </template>
