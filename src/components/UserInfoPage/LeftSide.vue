@@ -94,7 +94,7 @@
     <!--USER Education-->
     <v-layout wrap style="margin-top:4vw;">
       <v-flex xs12 class="text-center title">
-        <span class="fontjua">교육</span> 
+        <span class="fontjua">교육</span>
         <EducationEditor v-on:sendEdu="receiveEdu" v-if="this.$route.params.id==this.$store.getters.getSession"/></v-flex>
       <v-flex xs12>
         <!-- v-for Education -->
@@ -117,10 +117,21 @@
                 text outlined small absolute fab
                 class ="edubtn"
                 style="z-index:2; right:0; top:35%; position: absolute; display: none;">
+
+                <!-- 기존에 있던 삭제 버튼입니다. -->
                 <img
                   src="../../assets/icon_set/delete.png"
                   alt="deledu"
                   style="cursor:pointer; width:25px;height:25px;"/>
+
+                <!--또 다른 삭제 버튼입니다.(텍스트로 삭제 노출 : 19.9.1. 10:56 기각) -->
+                <!-- <v-btn
+                  class="d-inline"
+                  style=""
+                  text color="red">
+                  <span class="fontJua ">삭제</span>
+                </v-btn> -->
+
               </v-flex>
               <span class="subheading black--text">{{e.Agency}}<br/></span>
               <span class="body-2">{{e.Degree}}<br/></span>
