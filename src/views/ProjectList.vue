@@ -34,7 +34,8 @@
               </div>
               <div style="margin:2px 0 0 15px;">
                 <v-chip x-small outlined v-for="t in project.tech" style="margin-right:2px;">
-                  {{t}}
+                  <!-- {{t}} -->
+                  <span >{{ t.substring(0,15) }}</span>
                 </v-chip>
               </div>
               <v-chip outlined style="position:absolute; right:10px; top:276px;"  @click="showdetail(idx)">
