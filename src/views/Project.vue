@@ -165,7 +165,7 @@
                   <span class="overline grey--text"> {{com.User}} </span>
                   <span class="overline grey--text"> | {{com.date}} </span> <br/>
                   <div v-if="com.state < 3" style="font-size:2em;">
-                    <span class="fontYanolja "> {{com.Comment}} </span>
+                    <span><span class=" "  style="font-size:16px;"> {{com.Comment}} </span></span>
                     <span v-bind:class="[`blind_${index}`]" class="subtitle-1" style="display:none;"> {{com.Comment}} </span>
                   </div>
                   <!-- action btn -->

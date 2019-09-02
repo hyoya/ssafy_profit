@@ -31,7 +31,6 @@
       </div>
     </div>
 
-
     <!-- 작업중인 리스트 -->
     <div style="width:100%; margin-bottom:40px;" v-if="proceedList.length>0">
 
@@ -119,6 +118,45 @@
       </fieldset>
 
     </div>
+
+    <!-- 찜 리스트 -->
+    <div style="width:100%"  v-if="Dibs.length>0">
+      <fieldset style="padding:20px; border:2px solid white; border-radius:10px; " justify-center >
+        <legend align="center" class="white--text display-1">
+          <span class="fontYanolja">&nbsp;찜리스트&nbsp;</span>
+        </legend>
+        <v-layout row wrap v-for="(recruit,index) in Dibs" style="margin:20px 0;">
+            <v-card outlined style="width:100%; padding:12px;">
+              <div class="subtitle-1">
+                <span class="headline font-weight-bold">{{recruit.data.projectTitle}}</span>
+                <span class="caption grey--text">&nbsp;{{recruit.data.companyId}}</span>
+                <!-- <h2>{{recruit.data.projectTitle}} </h2>
+                {{recruit.data.companyId}} -->
+                <div>
+                  <v-chip v-for="skill in recruit.data.requiredSkills" small outlined style="margin:auto;">
+                    {{skill}}
+                  </v-chip>
+                </div>
+                <div>
+                  <p style="width:100%;" class="text-center headline">
+                    <span> {{recruit.data.budget}}원 </span><br/>
+                    <span class="overline grey--text">{{recruit.data.endDay}}</span>
+                    <br/>
+                    <span class="caption grey--text">{{recruit.data.projectSummary}}</span>
+                  </p>
+                </div>
+              </div>
+              <v-container>
+                <v-layout row wrap>
+                  <v-spacer/>
+                  <v-btn  @click="dib(recruit.id,index)" outlined color="red"> 찜 취소 </v-btn>
+                  <v-btn style="margin-right:3px;" @click="popDibChat(recruit)" outlined color="orange">채팅방</v-btn>
+                </v-layout>
+              </v-container>
+            </v-card>
+        </v-layout>
+      </fieldset>
+      </div>
 
     <!-- 완료 리스트 -->
     <div style="width:100%; margin-bottom:40px;" v-if="completeList.length>0">
