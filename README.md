@@ -1,93 +1,85 @@
-# 개요
+# SSAFY 1차 프로젝트 -  웹/모바일
 
-1. 프론트 / 백 / DB
+안녕하세요. 여기에는 웹/모바일 프로젝트에 관한 내용을 다룹니다. 
 
-2. 참고 페이지
+backend 로는 firebase 를 사용, frontend 로는 vue 를 사용하였습니다.
 
-3. 기능
+설치 방법 은 아래의 개요에서 자세히 다루도록 하겠습니다.
 
-4. 만들면서 주의사항
+만약 당신이 설치를 성공적으로 했다면, 해당 페이지가 뜨는 것을 볼 수 있습니다.
 
-   jquery 쓰지 말기
+![메인페이지](..\webmobile-final\sample_image\메인페이지.png)
 
-## 1. 프론트/백/DB
 
-- 프론트 : vue
-- 백, DB : firebase로 연동
 
-## 2. 참고 페이지
+## 개요
 
-- `https://dribbble.com/`
-- `https://meeta.io/`
+1. 환경 설정
 
-- `https://programmers.co.kr/`
-- `https://www.jobplanet.co.kr/`
+2. 프로젝트 설명 ( 추후 작성할 예정)
 
-## 3. 기능
 
-- 프로젝트 목적 : 포트폴리오 공유 사이트
 
-- 레이아웃 : 숫자로 페이지(url) 구분 , {숫자} 는 이동 가능한 페이지를 뜻함
+## 1. 환경 설정
+
+- clone
 
   ```
-  1 메인화면 : ex) https://dribbble.com/
-  url : https://~~~~.com/
-  	- 헤더 : 로고, 로그인, 회원가입, (멤버십 등급은 넣지 않기로 함, 세부 내용은 추가기능에 설명)
-  		{4 회원 가입 페이지}
-  	- 상단 : 서비스 안내(정보)
-  	- 필터링 기능(포트폴리오 검색=돋보기이용)
-  	- 중간 : 종류별(선택가능) 포트폴리오 나열
-  		{2 포트폴리오 상세 화면 이동 가능}
-  	- 맨 아래 : 메타 데이터
-
-  2 포트폴리오 상세 화면 : 모달로 구현 , ex) https://dribbble.com/shots/6732804-Refreshing-Summer-Drinks
-  url : https://~~~~.com/@제작자의ID/그사람의포트폴리오숫자
-  	- 유저 정보 , 좋아요..? 저장..? 기능
-  	- 간단한 포트폴리오 대표이미지
-  	- 유저 : 댓글(대댓글기능=소통, #,@언급기능) 모음
-  		{3-1 유저 상세 페이지로 이동 가능}
-
-  3-1 유저 상세 페이지(남의 페이지) : ex) https://dribbble.com/Angelia1314
-  url : https://~~~~.com/@제작자의ID/
-  목적 : 유저가 어떤 포트폴리오 공유했는지 확인 가능
-  	- 상단 : 태그 / 팔로워 / 기능
-  		- 태그 별 포트폴리오 나열
-  		- 팔로우 별 .. 정보??
-  	- 왼쪽 세션 : 유저의 기본 정보
-  		- 이메일을 통해 바로 메일 보내기 기능
-  	- 오른쪽 : 포트폴리오 나열
-
-  3-2 유저 상세 페이지(나의 페이지) : 내가 나의 페이지 안에서 할 수 있는 것
-  url : https://~~~~.com/@제작자의ID/
-  	- 알림 기능 : 로그인한 경우 = 백준 참조
-  		- 포트폴리오 열람 기록
-  			개인이 열람했는지, 기업이 열람했는지 확인(필터링 또는 하이라이트 기능으로)
-  		- 팔로우한 사람이 새로운 프로젝트를 올렸습니다.
-  		- 관심있는 기업(3-3 참조)이 어떠한 포스팅을 하였는지 확인 가능
-  	- 자신의 프로젝트 CRUD (meeta 참조)
-
-  3-3 기업 상세 페이지 , ex) https://programmers.co.kr/job_positions/815
-  url : https://~~~~.com/company/@회사의ID/
-  	- 왼쪽 : 기업의 기본적인 정보
-  	- 오른쪽 : 어떠한 사람들을 원하는지에 대한 내용(간단하게), 채용 포스팅
-
-  4-1 회원 가입 페이지(유저)
-  url : https://~~~~.com/signup/user
-  	- 개인정보
-  		- 한줄소개, 경력, 교육, 이메일과 폰번호(공개/비공개 여부), 대표이미지
-
-  4-2 회원 가입 페이지(기업)
-  url : https://~~~~.com/signup/company
-  	- 기업인증 : 메일인증 형식으로(관리자는 관리자페이지에서 승인가능??!?!?!)
-  	- 어떠한 직무를 원하는지 meeta 처럼 태크 선택가능하게끔.(최대한 편하게)
-
+  $ git clone https://lab.ssafy.com/Kim-Seul-Gi/webmobile-final.git
   ```
 
-- 추가 기능
+- 해당 repository 로 이동
 
-  - 멤버십
+  ```
+  $ cd webmobile-final
+  ```
 
-    - 등급 : 논멤버십, 기업멤버십(기업인증필요-관리자페이지에서 승인(메일인증형식)), 개인멤버십(기준이 2개=돈을 내거나, 프로젝트를 올린 기록이 있거나, 하루치 한달치 등등)
+- npm 설치
 
-    - 개인은, 포트폴리오/ 를 보려면 내가 올렸거나? 돈을 냈거나
-    - 개인은 올린 포트폴리오에 대한 랭킹시스템으로 활성화 유도
+  ```
+  $ npm install
+  ```
+
+- node_moduls 코드 일부 수정 (node_modules/vue-burger-menu/dist/vue-burger-menu.common.js) / 코드 수정 전,후 이미지 아래부분에 있습니다.
+
+  ```
+  - 2182줄에 있는 Menuvue_type_template_id_6fc94ece_render 라는 변수가 아래와 같이 정의되 있을 것입니다. 
+  
+  var Menuvue_type_template_id_6fc94ece_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{ref:"sideNav",staticClass:"bm-menu"},[_c('nav',{staticClass:"bm-item-list"},[_vm._t("default")],2),_c('span',{staticClass:"bm-cross-button cross-style",class:{ hidden: !_vm.crossIcon },on:{"click":_vm.closeMenu}},_vm._l((2),function(x,index){return _c('span',{key:x,staticClass:"bm-cross",style:({ position: 'absolute', width: '3px', height: '14px',transform: index === 1 ? 'rotate(45deg)' : 'rotate(-45deg)'})})}))]),_c('div',{ref:"bmBurgerButton",staticClass:"bm-burger-button",class:{ hidden: !_vm.burgerIcon },on:{"click":_vm.openMenu}},_vm._l((3),function(x,index){return _c('span',{key:index,staticClass:"bm-burger-bars line-style",style:({top:20 * (index * 2) + '%'})})}))])}
+  
+  - 위를 지워주시고, 아래의 내용을 복사붙여넣기 해주세요
+  
+  var Menuvue_type_template_id_6fc94ece_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{ref:"sideNav",staticClass:"bm-menu"},[_c('nav',{staticClass:"bm-item-list"},[_vm._t("default")],2),_c('span',{staticClass:"bm-cross-button cross-style",class:{ hidden: !_vm.crossIcon },on:{"click":_vm.closeMenu}},_vm._l((1),function(x,index){return _c('i',{key:x,staticClass:"fa fa-caret-right",style:({ position: 'absolute', width: '3px', height: '14px'})})}))]),_c('div',{ref:"bmBurgerButton",staticClass:"bm-burger-button",class:{ hidden: !_vm.burgerIcon },on:{"click":_vm.openMenu}},_vm._l((1),function(x,index){return _c('i',{key:index,staticClass:"fa fa-caret-left line-style studiopop",style:({top:20 * (index * 2) + '%' } )})}))])}
+  ```
+
+
+
+- 코드 수정 전
+
+![코드 수정 전](..\webmobile-final\sample_image\코드 수정 전.png)
+
+
+
+- 코드 수정 후
+
+![코드 수정 후](..\webmobile-final\sample_image\코드 수정 후.png)
+
+
+
+- 서버 실행시키기
+
+  ```
+  $ npm run serve
+  ```
+
+
+
+- 아래와 같은 문구가 뜬다면 성공!
+
+  ```
+   App running at:
+    - Local:   http://localhost:8080/
+    - Network: http://192.168.31.60:8080/
+  ```
+
+  
