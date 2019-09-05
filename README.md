@@ -8,7 +8,7 @@ backend 로는 firebase 를 사용, frontend 로는 vue 를 사용하였습니�
 
 만약 당신이 설치를 성공적으로 했다면, 해당 페이지가 뜨는 것을 볼 수 있습니다.
 
-![메인페이지](..\webmobile-final\sample_image\메인페이지.png)
+![메인페이지](.\sample_image\메인페이지.png)
 
 
 
@@ -56,13 +56,13 @@ backend 로는 firebase 를 사용, frontend 로는 vue 를 사용하였습니�
 
 - 코드 수정 전
 
-![코드 수정 전](..\webmobile-final\sample_image\코드 수정 전.png)
+![코드 수정 전](.\sample_image\코드 수정 전.png)
 
 
 
 - 코드 수정 후
 
-![코드 수정 후](..\webmobile-final\sample_image\코드 수정 후.png)
+![코드 수정 후](.\sample_image\코드 수정 후.png)
 
 
 
