@@ -1,0 +1,31 @@
+커스텀 폰트(직접 import한것 - assets에 들어있다)
+fontHanna : 배민 한나는 11살
+fontHannaAir : 배민 한나Air
+fontjua : 배민 주아체
+fontBmYeonsung : 배민 연성체
+fontYanolja : 야놀자체
+
+이하 구글 폰트 (index.html에 선언되어있다)
+fontJua : 배민 주아
+fontDoHyeon : 배민 도현
+fontYeonSung : 배민 연성체
+fontPS :  Poor Story
+fontNanum : 나눔명조
+fontSunflower : 해바라기
+fontBlackHanSans : Black Han Sans
+
+
+** 뷰티파이 이 개같은거 font에 관련된 class (예를들어 display-2, caption, headline,  font-weight-bold.... 등등) 썼으면
+그 안에 다시 span태그를 먹여서 폰트를 바꿔줘야한다.
+저놈이 태그를 생성하고 우선순위 최고로 먹기때문
+예>>
+<span class="headline">
+   <span class="fontJua">
+      글자
+   </span>
+</span>
+
+@click="$refs.fullpage.api.moveSectionDown()"
+
+
+옥색 : #00ae9d
