@@ -107,7 +107,7 @@ export default {
   methods: {
     async filldata(){
       this.companylist = await FirebaseService.SELECT_AllCompany();
-      console.log(this.companylist);
+      // console.log(this.companylist);
     }
   },
   watch: {

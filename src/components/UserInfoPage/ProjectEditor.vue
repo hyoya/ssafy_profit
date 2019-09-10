@@ -434,7 +434,7 @@
                   // 여기여기
                   this.$emit('update_success')
                  }
-                 
+
                }
 
         },
@@ -485,7 +485,6 @@
 
         },
         async getProject() {
-          console.log(1)
           this.project = await FirebaseService.SELECT_Project(this.project_id)
           var data = this.project
           this.projectcontent = data.projectcontent

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import FirebaseService from "@/services/FirebaseService";
+// import FirebaseService from "@/services/FirebaseService";
 
 export default {
   data: () => ({
@@ -114,8 +114,6 @@ export default {
           filter_eduendday = eduendday
         }
       }
-
-
 
       if (!this.eduendday) {
         var Json = new Object();

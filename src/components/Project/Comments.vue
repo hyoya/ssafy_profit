@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     submitCommentReport(reportCommentSelect,reportCommentText,reportCommentDesc, index) {
-      console.log(this.comments,"살려줘..")
+      // console.log(this.comments,"살려줘..")
       var upperUser = this.$session.get('session_id').toUpperCase();
       if ( !this.comments[index].reportUserList.includes(upperUser) ) {
         if ( reportCommentSelect !== "기타" ) {

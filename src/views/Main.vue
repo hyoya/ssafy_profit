@@ -146,7 +146,7 @@ import FirebaseService from "@/services/FirebaseService";
 // import Banner from "../components/MainPage/Banner";
 // import Filters from "../components/MainPage/Filters";
 // import PortfolioList from "../components/MainPage/PortfolioList";
-import Vue from "vue";
+// import Vue from "vue";
 import Section1 from "../components/MainPage/Section1";
 import Section2 from "../components/MainPage/Section2";
 import Section3 from "../components/MainPage/Section3";

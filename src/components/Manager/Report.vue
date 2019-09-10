@@ -16,8 +16,8 @@
         <!-- 프로젝트를 신고한 경우 -->
         <v-list v-if="tag =='Siren_Project'">
         <v-list-item
-          v-for="(report) in reportList"
           v-if="report.data.tag == tag"
+          v-for="(report) in reportList"
         >
 
           <v-list-item-content>
@@ -39,8 +39,8 @@
       <!-- 댓글신고를 한 경우 -->
       <v-list v-if="tag =='Siren_Comment'">
       <v-list-item
-        v-for="(report) in reportList"
         v-if="report.data.tag == tag"
+        v-for="(report) in reportList"
       >
 
         <v-list-item-content>
@@ -62,8 +62,8 @@
       <!-- 이의제기를 한 경우 -->
       <v-list v-if="tag =='Objection'">
       <v-list-item
-        v-for="(report) in reportList"
         v-if="report.data.tag == tag"
+        v-for="(report) in reportList"
       >
 
         <v-list-item-content>
@@ -126,13 +126,11 @@ export default {
         FirebaseService.UPDATE_projectState(projectId, reportStack);
         FirebaseService.INSERT_alert_manager(project_data.session_id, projectId, user_data[0], degree, reportStack, tag)
       } else {
-        console.log('여기왔냐')
         var project_data = await FirebaseService.SELECT_Project(projectId)
         var user_data = await FirebaseService.SELECT_Userdata(project_data.session_id)
         var comments_data = project_data.comments
         // comments_data[report.data.index].reportUserList = []
         FirebaseService.UPDATE_commentState(projectId, comments_data);
-        console.log(report.data.reportUser, '얘가 댓글쓴사람 맞음??')
         FirebaseService.INSERT_alert_manager(report.data.reportUser, projectId, user_data[0], degree, reportStack, tag)
       }
 
@@ -156,7 +154,7 @@ export default {
           FirebaseService.UPDATE_projectState(projectId, reportStack);
           FirebaseService.INSERT_alert_manager(project_data.session_id, projectId, user_data[0], degree, reportStack, tag)
         } else {
-          console.log(report)
+          // console.log(report)
           var project_data = await FirebaseService.SELECT_Project(projectId)
           var user_data = await FirebaseService.SELECT_Userdata(project_data.session_id)
           var comments_data = project_data.comments

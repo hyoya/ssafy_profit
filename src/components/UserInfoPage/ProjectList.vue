@@ -14,7 +14,6 @@
           v-on:delete="DELETE_project"
 
           :projectstate="projects[i-1].data.state"
-
           :projectimage="projects[i-1].data.projectimage || 'http://design-ec.com/d/e_others_50/l_e_others_500.png'"
           :projecttitle="projects[i-1].data.projecttitle"
           :projectdescription="projects[i-1].data.projectdescription"

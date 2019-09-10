@@ -15,8 +15,8 @@
         <v-expansion-panels>
 
           <v-expansion-panel
-          v-for="(user, index) in userlist"
           v-if="user.nickname.includes(input) && user.level != 0"
+          v-for="(user, index) in userlist"
           >
             <v-expansion-panel-header>
               <div>

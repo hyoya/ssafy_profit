@@ -50,7 +50,7 @@ export default {
   methods : {
     fetchAlert() {
       this.$refs.sign.fetchAlert();
-      console.log("헤더")
+      // console.log("헤더")
     },
 
     async get_userdata(id) {

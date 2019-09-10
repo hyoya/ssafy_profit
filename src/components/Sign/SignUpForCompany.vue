@@ -165,7 +165,7 @@ import FirebaseService from "@/services/FirebaseService";
           this.$emit('signup')
           this.$swal('회원가입에 성공하였습니다.','기업 페이지에서 정보를 입력해주세요!','success')
         } else {
-          console.log('안됨')
+          // console.log('안됨')
         }
       },
       idCheck() {

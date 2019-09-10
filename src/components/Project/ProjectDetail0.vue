@@ -14,12 +14,12 @@
 
 
 <script>
-import FirebaseService from "@/services/FirebaseService";
-import BigImg from "../Common/BigImg";
+// import FirebaseService from "@/services/FirebaseService";
+// import BigImg from "../Common/BigImg";
 
 export default {
   components: {
-    BigImg
+    // BigImg
   },
   props: {
     projectimage: { type: String }, //프로젝트 메인 이미지

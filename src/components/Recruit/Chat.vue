@@ -14,7 +14,7 @@
           <v-flex xs12>
               <v-container class="overflow-y-auto pannel" v-chat-scroll="{always: true, smooth: true, scrollonremoved:true}" style="max-height:450px; padding:32px;">
                 <v-layout  column style="padding:10px 0;">
-                  <v-flex xs12 v-for="message in messages" v-if='message.chatId !== "" && message.chatMsg !== "" ' class="messageBox">
+                  <v-flex xs12 v-if='message.chatId !== "" && message.chatMsg !== "" ' v-for="message in messages"  class="messageBox">
                     <v-layout style="justify-content: center;" v-if='message.chatId == "!SYSTEM"'>
                       <div v-html="message.chatMsg" style="background:lightgrey;" class="speech_bubble caption text-center"></div>
                     </v-layout>
@@ -273,8 +273,8 @@
               <v-layout column>
                 <v-flex
                 xs12
-                v-for="message in messages"
                 v-if='message.chatId !== "" && message.chatMsg !== "" '
+                v-for="message in messages"
                 class="messageBox">
                 <v-layout style="justify-content: center;" v-if='message.chatId == "!SYSTEM"'>
                   <div v-html="message.chatMsg" style="background:lightgrey;" class="speech_bubble caption text-center"></div>
