@@ -111,7 +111,7 @@
 
 
 <script>
-import FirebaseService from "@/services/FirebaseService";
+// import FirebaseService from "@/services/FirebaseService";
 import Vue from "vue";
 
 export default {
