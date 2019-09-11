@@ -14,7 +14,7 @@
 <script>
 import Header from "./components/Common/Header";
 import Footer from "./components/Common/Footer";
-// import CustomCss from "./components/Common/CustomCss";
+import CustomCss from "./components/Common/CustomCss";
 export default {
   name: "App",
   components: {
